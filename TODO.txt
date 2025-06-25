@@ -1,0 +1,28 @@
+Course Info:
+1) ML and AI
+
+Projects:
+2) Sandy-Ai
+3) Ultron Project
+11) ML & AI Projs??
+
+About: 
+Done?
+
+Home:
+Done!??
+
+School:
+DONE!
+
+NavBar:
+FIXED!
+
+Host:
+1) HOST
+2) Setup Azure
+3) CI/CD, GIT etc
+
+GIT:
+1) Upload all projects to git!
+2) Reference each project with giut link!
