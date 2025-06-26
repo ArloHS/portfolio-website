@@ -13,8 +13,7 @@ export default function Home() {
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Data Scientist & MLOps Engineer</h1>
           <p className="text-xl md:text-2xl max-w-2xl mx-auto mb-8 text-slate-300">
-            Merging mathematical rigor, statistical modeling, and cutting-edge computing to extract meaningful insights
-            from complex data.
+            I use mathematics, programming, and machine learning to build practical solutions for complex problems.
           </p>
           <Link href="/projects">
             <Button size="lg" className="bg-teal-600 hover:bg-teal-700">
@@ -112,8 +111,7 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-2">Explore My Journeys</h2>
           <p className="text-center max-w-2xl mx-auto mb-12 text-slate-600 dark:text-slate-400">
-            Delve into my academic foundation, see the courses I've excelled in, review my school background, and
-            discover the professional experiences that shaped my expertise.
+            Check out my School, University and Work Experience.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -135,7 +133,7 @@ export default function Home() {
                   <Code className="h-12 w-12 mb-4 text-teal-600" />
                   <h3 className="text-xl font-bold mb-2">School Achievements</h3>
                   <p className="text-slate-600 dark:text-slate-400">
-                    Learn about my early academic success, foundational skills, and personal growth during school years.
+                    Explore my high school journey, including key achievements and skills developed.
                   </p>
                 </CardContent>
               </Card>
@@ -147,8 +145,7 @@ export default function Home() {
                   <LineChart className="h-12 w-12 mb-4 text-teal-600" />
                   <h3 className="text-xl font-bold mb-2">Work Experience</h3>
                   <p className="text-slate-600 dark:text-slate-400">
-                    Discover my professional engagements, internships, and roles that honed my real-world
-                    problem-solving abilities.
+                    Check out my work experience, from internships to projects that sharpened my skills.
                   </p>
                 </CardContent>
               </Card>
@@ -163,9 +160,7 @@ export default function Home() {
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Technical Expertise</h2>
             <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
-              From foundational programming and data manipulation to advanced machine learning, MLOps engineering, and
-              cloud deployment, I leverage a comprehensive toolkit to transform complex datasets into actionable
-              insights.
+              I apply programming, machine learning, and cloud tools to solve data challenges.
             </p>
           </div>
 
@@ -296,8 +291,7 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-2">Featured Projects</h2>
           <p className="text-center max-w-2xl mx-auto mb-12 text-slate-600 dark:text-slate-400">
-            Below are a few highlighted projects demonstrating my ability to apply theoretical knowledge, build complex
-            systems, and deliver impactful solutions.
+            My featured projects show my ability to work with data and build solutions.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">

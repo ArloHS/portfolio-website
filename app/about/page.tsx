@@ -74,8 +74,7 @@ export default function AboutPage() {
                 <p>
                   Beyond academics, I am committed to continuous growth and improvement. I embrace challenges with
                   enthusiasm and am dedicated to refining both my technical skills and my ability to communicate complex
-                  findings effectively. This perspective shapes how I approach every project – with rigor, empathy, and
-                  a commitment to accuracy.
+                  findings effectively. This perspective shapes how I approach every project.
                 </p>
               </div>
             </CardContent>
@@ -382,7 +381,7 @@ export default function AboutPage() {
               <p className="text-lg text-slate-600 dark:text-slate-400 mb-6 max-w-2xl mx-auto">
                 As I approach the completion of my degree, I'm excited about the opportunities to apply my skills in
                 real-world settings, contribute to meaningful projects, and continue growing as a data scientist and
-                software engineer.
+                MLOps engineer.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/projects">

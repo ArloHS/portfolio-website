@@ -25,9 +25,9 @@ export default function LlamaFineTuningPage() {
   ]
 
   const teamMembers = [
-    { name: "Arlo Steyn", id: "24713848", role: "Team Member" },
-    { name: "Andre van der Merwe", id: "24923273", role: "Team Member" },
-    { name: "Stephan Delport", id: "24710083", role: "Team Member" },
+    { name: "Arlo Steyn", role: "Team Member" },
+    { name: "Andre van der Merwe", role: "Team Member" },
+    { name: "Stephan Delport", role: "Team Member" },
   ]
 
   const modelSpecs = [
@@ -114,7 +114,6 @@ export default function LlamaFineTuningPage() {
                   </div>
                   <div>
                     <p className="font-medium">{member.name}</p>
-                    <p className="text-sm text-slate-500">ID: {member.id}</p>
                     <p className="text-sm text-slate-600 dark:text-slate-400">{member.role}</p>
                   </div>
                 </div>
