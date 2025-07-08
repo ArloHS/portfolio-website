@@ -24,5 +24,4 @@ Host:
 3) CI/CD, GIT etc
 
 GIT:
-1) Upload all projects to git!
-2) Reference each project with giut link!
+DONE!

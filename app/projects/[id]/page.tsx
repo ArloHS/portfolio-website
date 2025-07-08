@@ -15,6 +15,7 @@ type Project = {
   technologies?: string[]
   category: "featured" | "mlops" | "datascience" | "computerscience"
   additionalCategories?: ("mlops" | "datascience" | "computerscience")[]
+  githublink?: string
 }
 
 // Project data
@@ -221,6 +222,7 @@ const projects: Project[] = [
       "Machine Learning Pipeline",
     ],
     category: "datascience",
+    githublink: "https://github.com/ArloHS/Dry-Bean-Classification-A-Data-Driven-Approach-to-Machine-Learning-Optimization",
   },
   {
     id: "neural-network-comparison",
@@ -242,6 +244,7 @@ const projects: Project[] = [
       "L2 Regularization",
     ],
     category: "datascience",
+    githublink: "https://github.com/ArloHS/Comparative-Analysis-of-Neural-Network-Training-Algorithms",
   },
   {
     id: "random-forest-hyperparameters",
@@ -262,6 +265,7 @@ const projects: Project[] = [
       "Performance Analysis",
     ],
     category: "datascience",
+    githublink: "https://github.com/ArloHS/Does-Size-Matter-Hyperparameter-Tuning-in-Random-Forests",
   },
   {
     id: "customer-purchase-prediction",
@@ -282,6 +286,7 @@ const projects: Project[] = [
       "Business Intelligence",
     ],
     category: "datascience",
+    githublink: "https://github.com/ArloHS/Prediction_Model_Customer_Sales",
   },
   {
     id: "covid-vaccine-analysis",
@@ -302,6 +307,7 @@ const projects: Project[] = [
       "Policy Analysis",
     ],
     category: "datascience",
+    githublink: "https://github.com/ArloHS/R_Analysis_Covid19",
   },
 
   // Computer Science Projects
@@ -326,6 +332,7 @@ const projects: Project[] = [
       "LaTeX",
     ],
     category: "computerscience",
+    githublink: "https://github.com/ArloHS/Advanced_Algorithms_-_Sorting",
   },
   {
     id: "competitive-coding-jam-1",
@@ -346,6 +353,7 @@ const projects: Project[] = [
       "Time Complexity Analysis",
     ],
     category: "computerscience",
+    githublink: "https://github.com/ArloHS/Code_Jam_1",
   },
   {
     id: "competitive-coding-jam-2",
@@ -366,6 +374,7 @@ const projects: Project[] = [
       "Performance Analysis",
     ],
     category: "computerscience",
+    githublink: "https://github.com/ArloHS/Code_Jam_2",
   },
   {
     id: "lossless-compression-tool",
@@ -387,6 +396,7 @@ const projects: Project[] = [
       "Benchmarking",
     ],
     category: "computerscience",
+    githublink: "https://github.com/ArloHS/BWT_Loseless_Compression_Tool_C",
   },
   {
     id: "portfolio-website",
@@ -410,6 +420,7 @@ const projects: Project[] = [
       "CI/CD",
     ],
     category: "computerscience",
+    githublink: "https://github.com/ArloHS/portfolio-website",
   },
   {
     id: "regex-engine-haskell",
@@ -429,6 +440,7 @@ const projects: Project[] = [
       "Theoretical Computer Science",
     ],
     category: "computerscience",
+    githublink: "https://github.com/ArloHS/Regex_Engine",
   },
   {
     id: "enhanced-regex-engine",
@@ -449,6 +461,7 @@ const projects: Project[] = [
       "Performance Optimization",
     ],
     category: "computerscience",
+    githublink: "https://github.com/ArloHS/Enhanced_Regex_Engine",
   },
   {
     id: "github-api-clone",
@@ -469,6 +482,7 @@ const projects: Project[] = [
       "API Design",
     ],
     category: "computerscience",
+    githublink: "https://github.com/ArloHS/Github_Scraper_API",
   },
   {
     id: "intersection-nfa-analysis",
@@ -488,6 +502,7 @@ const projects: Project[] = [
       "State Machines",
     ],
     category: "computerscience",
+    githublink: "https://github.com/ArloHS/NFA_vs_DFA",
   },
   {
     id: "othello-game-engine",
@@ -509,6 +524,7 @@ const projects: Project[] = [
       "Performance Optimization",
     ],
     category: "computerscience",
+    githublink: "https://github.com/ArloHS/Othello_Game_Engine",
   },
   {
     id: "huffman-compression",
@@ -530,6 +546,7 @@ const projects: Project[] = [
       "Algorithmic Optimization",
     ],
     category: "computerscience",
+    githublink: "https://github.com/ArloHS/Huffman_Compression_Assembly",
   },
   {
     id: "genomic-sequence-analysis",
@@ -551,6 +568,7 @@ const projects: Project[] = [
       "String Processing",
     ],
     category: "computerscience",
+    githublink: "https://github.com/ArloHS/Genome_Repetition",
   },
   {
     id: "flappy-bird-clone",
@@ -571,6 +589,7 @@ const projects: Project[] = [
       "Object-Oriented Programming",
     ],
     category: "computerscience",
+    githublink: "https://github.com/ArloHS/Flappy_Bird",
   },
   {
     id: "space-attack-game",
@@ -593,6 +612,7 @@ const projects: Project[] = [
       "Retro Game Design",
     ],
     category: "computerscience",
+    githublink: "https://github.com/ArloHS/Space_Attack",
   },
 
   // Basic Computer Science Projects (added at the end)
@@ -604,6 +624,7 @@ const projects: Project[] = [
     image: "/images/CS113.png",
     technologies: ["Java", "Swing", "StdDraw", "Game Development", "Object-Oriented Programming", "GUI Design"],
     category: "computerscience",
+    githublink: "https://github.com/ArloHS/Quarto_Board_Game",
   },
   {
     id: "dictionary-implementations",
@@ -613,6 +634,7 @@ const projects: Project[] = [
     image: "/images/CS144.jpg",
     technologies: ["Java", "Data Structures", "Trie", "Arrays", "File I/O", "Interface Design", "Algorithms"],
     category: "computerscience",
+    githublink: "https://github.com/ArloHS/SpellCheckerDictionary",
   },
 ]
 
@@ -638,8 +660,16 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
       </div>
 
       <div className="max-w-5xl mx-auto">
-        <h1 className="text-3xl md:text-4xl font-bold mb-6">{project.title}</h1>
-
+        <h1 className="text-3xl md:text-4xl font-bold mb-6 text-center">{project.title}</h1>
+        {project.githublink && (
+          <div className="mb-6 flex justify-center"> {/* Added flex and justify-center */}
+            <Button asChild variant="outline">
+              <a href={project.githublink} target="_blank" rel="noopener noreferrer">
+                View on GitHub
+              </a>
+            </Button>
+          </div>
+        )}
         <div className="mb-8 relative h-[300px] md:h-[400px] w-full rounded-lg overflow-hidden">
           <ProjectImageFallback
             src={project.image || "/placeholder.svg"}

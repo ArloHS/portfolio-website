@@ -20,6 +20,7 @@ import { ProjectImageFallback } from "@/components/project-image-fallback"
 import Link from "next/link"
 
 export default function WhatsDownPage() {
+  const githublink = "https://github.com/ArloHS/Whatsdown";
   const technologies = [
     "Java",
     "JavaFX",
@@ -110,6 +111,15 @@ export default function WhatsDownPage() {
           <h2 className="text-2xl md:text-3xl font-semibold mb-6 text-slate-700 dark:text-slate-300">
             Integrated Secure VoIP and File Transfer System
           </h2>
+          {githublink && (
+            <div className="mb-6 flex justify-center">
+              <Button asChild variant="outline">
+                <a href={githublink} target="_blank" rel="noopener noreferrer">
+                  View on GitHub
+                </a>
+              </Button>
+            </div>
+          )}
           <div className="flex items-center justify-center gap-4 text-sm text-slate-600 dark:text-slate-400 mb-6">
             <div className="flex items-center">
               <Calendar className="h-4 w-4 mr-2" />

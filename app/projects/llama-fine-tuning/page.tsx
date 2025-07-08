@@ -6,6 +6,7 @@ import { ProjectImageFallback } from "@/components/project-image-fallback"
 import Link from "next/link"
 
 export default function LlamaFineTuningPage() {
+  const githublink = "https://github.com/AndrevdM02/DataScience346_Project";
   const technologies = [
     "Python",
     "LLaMA-3.2-3B",
@@ -61,6 +62,15 @@ export default function LlamaFineTuningPage() {
           <h2 className="text-2xl md:text-3xl font-semibold mb-6 text-slate-700 dark:text-slate-300">
             Fine-Tuning a 3B Parameter Model for AI and Machine Learning Q&A
           </h2>
+          {githublink && (
+            <div className="mb-6 flex justify-center">
+              <Button asChild variant="outline">
+                <a href={githublink} target="_blank" rel="noopener noreferrer">
+                  View on GitHub
+                </a>
+              </Button>
+            </div>
+          )}
           <div className="flex items-center justify-center gap-4 text-sm text-slate-600 dark:text-slate-400 mb-6">
             <div className="flex items-center">
               <Calendar className="h-4 w-4 mr-2" />

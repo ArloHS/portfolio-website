@@ -6,6 +6,7 @@ import { ProjectImageFallback } from "@/components/project-image-fallback"
 import Link from "next/link"
 
 export default function AlanCompilerPage() {
+  const githublink = "https://github.com/ArloHS/C_Compiler_ALAN";
   const technologies = [
     "C",
     "Compiler Design",
@@ -36,11 +37,20 @@ export default function AlanCompilerPage() {
         <div className="text-center mb-12">
           <div className="flex items-center justify-center mb-4">
             <Code className="h-8 w-8 text-blue-600 mr-3" />
-            <h1 className="text-3xl md:text-4xl font-bold">ALAN Compiler Project</h1>
+            <h1 className="text-3xl md:text-4xl font-bold mb-6 text-center">ALAN Compiler Project</h1>
           </div>
           <h2 className="text-2xl md:text-3xl font-semibold mb-6 text-slate-700 dark:text-slate-300">
             Implementation of a Compiler for the ALAN Language
           </h2>
+          {githublink && (
+            <div className="mb-6 flex justify-center">
+              <Button asChild variant="outline">
+                <a href={githublink} target="_blank" rel="noopener noreferrer">
+                  View on GitHub
+                </a>
+              </Button>
+            </div>
+          )}
           <div className="flex items-center justify-center gap-4 text-sm text-slate-600 dark:text-slate-400 mb-6">
             <div className="flex items-center">
               <Calendar className="h-4 w-4 mr-2" />

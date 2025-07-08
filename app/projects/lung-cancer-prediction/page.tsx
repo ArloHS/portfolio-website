@@ -6,6 +6,23 @@ import { ProjectImageFallback } from "@/components/project-image-fallback"
 import Link from "next/link"
 
 export default function LungCancerPredictionPage() {
+  const githublink = "https://github.com/ArloHS/Lung-Cancer-Risk-Prediction";
+
+  const technologies = [
+    "Python",
+    "Scikit-learn",
+    "Logistic Regression",
+    "Ridge Regularization",
+    "Random Forest",
+    "GridSearchCV",
+    "K-Fold Cross-Validation",
+    "Healthcare ML",
+    "Feature Engineering",
+    "Risk Classification",
+    "Medical Diagnostics",
+    "Statistical Analysis",
+  ]
+
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="mb-8">
@@ -27,16 +44,24 @@ export default function LungCancerPredictionPage() {
             <Badge variant="outline">Data Science</Badge>
           </div>
 
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-red-600 to-pink-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-red-600 to-pink-600 bg-clip-text text-transparent text-center">
             Lung Cancer Risk Prediction: A Data-Driven Approach
           </h1>
 
-          <p className="text-xl text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
+          <p className="text-xl text-slate-600 dark:text-slate-400 mb-8 leading-relaxed text-center">
             Developed an advanced machine learning system to classify lung cancer risk levels, providing accessible
             healthcare screening for underprivileged regions. Achieved 96% accuracy while minimizing critical false
             negatives that could impact patient outcomes.
           </p>
-
+          {githublink && (
+            <div className="mb-6 flex justify-center">
+              <Button asChild variant="outline">
+                <a href={githublink} target="_blank" rel="noopener noreferrer">
+                  View on GitHub
+                </a>
+              </Button>
+            </div>
+          )}
           <div className="relative h-[400px] w-full rounded-xl overflow-hidden mb-8">
             <ProjectImageFallback
               src="/images/DS316.jpg"
@@ -44,10 +69,22 @@ export default function LungCancerPredictionPage() {
               fill
               className="object-cover"
             />
+
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
             <div className="absolute bottom-6 left-6 text-white">
               <p className="text-sm opacity-90">Healthcare Machine Learning • Risk Classification • Early Detection</p>
             </div>
+          </div>
+        </div>
+        {/* Technologies */}
+        <div className="mb-12">
+          <h2 className="text-2xl font-bold mb-4">Technologies & Tools</h2>
+          <div className="flex flex-wrap gap-2">
+            {technologies.map((tech, index) => (
+              <Badge key={index} variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-sm">
+                {tech}
+              </Badge>
+            ))}
           </div>
         </div>
 
@@ -261,42 +298,7 @@ export default function LungCancerPredictionPage() {
           </CardContent>
         </Card>
 
-        {/* Technologies Used */}
-        <Card className="mb-12">
-          <CardHeader>
-            <CardTitle>Technologies & Methodologies</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap gap-2">
-              {[
-                "Python",
-                "Scikit-learn",
-                "Pandas",
-                "NumPy",
-                "Matplotlib",
-                "Seaborn",
-                "Logistic Regression",
-                "Ridge Regularization",
-                "Lasso Regularization",
-                "Elastic Net",
-                "Random Forest",
-                "GridSearchCV",
-                "K-Fold Cross-Validation",
-                "Feature Engineering",
-                "EDA",
-                "Statistical Analysis",
-                "Healthcare ML",
-                "Risk Classification",
-                "Medical Diagnostics",
-                "Hyperparameter Tuning",
-              ].map((tech, index) => (
-                <Badge key={index} variant="secondary" className="bg-slate-100 dark:bg-slate-800">
-                  {tech}
-                </Badge>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+
 
         {/* Real-World Impact */}
         <Card className="mb-12">
