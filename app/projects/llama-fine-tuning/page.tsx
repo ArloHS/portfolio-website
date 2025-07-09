@@ -6,7 +6,7 @@ import { ProjectImageFallback } from "@/components/project-image-fallback"
 import Link from "next/link"
 
 export default function LlamaFineTuningPage() {
-  const githublink = "https://github.com/AndrevdM02/DataScience346_Project";
+  const githublink = "https://github.com/ArloHS/Llama3B_FineTune_ChatBot";
   const technologies = [
     "Python",
     "LLaMA-3.2-3B",
