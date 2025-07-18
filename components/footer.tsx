@@ -15,7 +15,7 @@ export default function Footer() {
             GitHub
           </a>
           <a
-            href="https://www.linkedin.com/in/arlo-steyn-0a42b92a6/?originalSubdomain=za"
+            href="https://www.linkedin.com/in/arlo-steyn-0a42b92a6"
             target="_blank"
             rel="noopener noreferrer"
             className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100 transition-colors"

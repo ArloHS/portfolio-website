@@ -200,7 +200,7 @@ export default function AboutPage() {
                   <div>
                     <p className="font-medium">LinkedIn</p>
                     <a
-                      href="https://www.linkedin.com/in/arlo-steyn-0a42b92a6/?originalSubdomain=za"
+                      href="https://www.linkedin.com/in/arlo-steyn-0a42b92a6"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-slate-600 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
