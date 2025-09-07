@@ -200,7 +200,28 @@ const projects: Project[] = [
     category: "featured",
     additionalCategories: ["datascience"],
   },
-
+  {
+    id: "a-star-pathfinding",
+    title: "A* Search Algorithm for Pathfinding in Mazes and Maps",
+    description:
+      "Developed an elegant implementation of the A* search algorithm in Python, showcasing its power in solving pathfinding problems across two domains: mazes and maps. Designed an abstract A* framework using a min heap for efficient node exploration, enabling reusable and robust code across problem types. For mazes, implemented a grid-based setup with 8-directional movement, using Manhattan and Euclidean heuristics to guide the search. For maps, modeled a weighted graph of South African cities with (x,y) coordinates, leveraging adjacency lists for neighbor traversal. Integrated Dijkstra’s algorithm (A* with zero heuristic) for comparison, highlighting the critical role of heuristics in reducing search space. Created visualizations using Pygame for mazes, displaying open/closed cells and paths, and attempted graph visualizations for maps with nodes and weighted edges. Conducted experiments on varying complexity levels (low, medium, high) for both domains, analyzing execution time, path cost, and nodes visited to evaluate algorithm efficiency and heuristic impact. The project, detailed in a technical report, demonstrates A*’s versatility and the importance of smart heuristic design in pathfinding.",
+    image: "/images/MLAIA1.png",
+    technologies: [
+      "A* Search",
+      "Dijkstra’s Algorithm",
+      "Pathfinding",
+      "Heuristics",
+      "Manhattan Distance",
+      "Euclidean Distance",
+      "Min Heap",
+      "Pygame",
+      "Graph Theory",
+      "Maze Generation",
+      "Python"
+    ],
+    category: "datascience",
+    githublink: "https://github.com/ArloHS/A_Star-Heuristics-Visualized"
+  },
   // Data Science/Machine Learning Projects
   {
     id: "bean-classification",

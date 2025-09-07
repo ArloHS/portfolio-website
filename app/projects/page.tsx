@@ -53,7 +53,7 @@ const projects: Project[] = [
     category: "featured",
     additionalCategories: ["datascience"],
   },
-    {
+  {
     id: "whatsdown",
     title: "WhatsDown: Integrated Secure VoIP and File Transfer System",
     description:
@@ -131,6 +131,26 @@ const projects: Project[] = [
   },
 
   // Data Science/Machine Learning Projects
+  {
+    id: "a-star-pathfinding",
+    title: "A* Search Algorithm for Pathfinding in Mazes and Maps",
+    description:
+      "I implemented a robust A* search algorithm in Python to tackle pathfinding challenges in maze and map domains, emphasizing the power of heuristics in optimizing search efficiency. The project featured an abstract A* implementation using a min heap for efficient node prioritization, ensuring reusable and scalable code across problem types. For mazes, I designed a grid-based system supporting 8-directional movement, employing Manhattan and Euclidean heuristics to guide pathfinding. For maps, I modeled a weighted graph representing South African cities with (x,y) coordinates, using adjacency lists for neighbor exploration. I also implemented Dijkstra’s algorithm (A* with zero heuristic) for comparative analysis, highlighting the heuristic’s role in reducing explored nodes. Visualizations were created using Pygame for mazes, showcasing open/closed cells and optimal paths, and for maps, displaying nodes and weighted edges. Experiments were conducted across low, medium, and high complexity levels for both domains, analyzing execution time, path cost, and nodes visited to assess algorithm performance and heuristic effectiveness. A detailed technical report was authored, documenting the methodology, implementation challenges, and experimental setup, underscoring the importance of heuristic design in efficient pathfinding.",
+    image: "/images/MLAIA1.png",
+    technologies: [
+      "Python",
+      "A* Search",
+      "Dijkstra’s Algorithm",
+      "Pygame",
+      "Heuristics",
+      "Manhattan Distance",
+      "Euclidean Distance",
+      "Min Heap",
+      "Graph Theory"
+    ],
+    category: "datascience",
+
+  },
   {
     id: "bean-classification",
     title: "Dry Bean Classification: A Data-Driven Approach to Machine Learning Optimization",
