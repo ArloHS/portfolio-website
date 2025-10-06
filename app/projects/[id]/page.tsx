@@ -289,6 +289,27 @@ const projects: Project[] = [
     githublink: "https://github.com/ArloHS/Does-Size-Matter-Hyperparameter-Tuning-in-Random-Forests",
   },
   {
+  id: "wine-quality-analysis",
+  title: "Red Wine Quality Classification: A Case Study in Applied Data Science",
+  description:
+    "This project was part of a professional data science case study for a company, where I analyzed and modeled red wine quality using physicochemical data. The dataset contained 1,599 samples with 11 features representing chemical properties such as acidity, chlorides, and alcohol content. I began with a thorough preprocessing pipeline — removing 240 duplicate samples (15% of the data), handling skewed distributions via log transformation, and applying a robust scaler to limit the influence of outliers. Correlation analysis confirmed moderate intercorrelation but no severe multicollinearity, making the data suitable for tree-based models. The target variable was reframed from a multiclass scale (0–10) into a binary classification problem: wines rated ≥7 were labeled 'good'. I implemented and tuned Random Forest and XGBoost classifiers using stratified 5-fold cross-validation and grid search optimization, with class weighting to counter imbalance. Both models performed strongly, achieving high accuracy and balanced precision-recall trade-offs. Visual analyses — including confusion matrices, ROC curves, and feature importance plots — demonstrated model interpretability and reliability. This project showcased my ability to apply end-to-end machine learning workflows to a realistic business context, communicate results effectively, and reflect on model improvements such as alternative thresholds, class weighting, and SMOTE for future enhancement.",
+  image: "/images/RedWine.jpg",
+  technologies: [
+    "Python",
+    "Scikit-learn",
+    "XGBoost",
+    "Random Forest",
+    "Pandas",
+    "EDA",
+    "Feature Selection",
+    "Cross Validation",
+    "Grid Search",
+    "Data Visualization"
+  ],
+  category: "datascience",
+  githublink: "https://github.com/ArloHS/Wine-Quality-Analysis-w-Presentation",
+  },
+  {
     id: "customer-purchase-prediction",
     title: "Predicting Customer Purchases Using Advanced Classification Models",
     description:

@@ -188,6 +188,26 @@ const projects: Project[] = [
     category: "datascience",
   },
   {
+  id: "wine-quality-analysis",
+  title: "Red Wine Quality Classification: A Case Study in Applied Data Science",
+  description:
+    "I conducted a data-driven case study for a company, exploring the physicochemical properties influencing red wine quality. The project involved end-to-end data analysis — from preprocessing and exploratory data analysis (EDA) to transformation, modeling, and evaluation. I identified and addressed duplicate records, handled skewness through log transformations, and scaled features using a robust scaler to mitigate the impact of outliers. Using Random Forest and XGBoost classifiers, I built interpretable and high-performing models to predict wine quality as a binary classification task (good vs bad). Feature selection combined SelectKBest with model-based importance measures to reduce noise and improve generalization. Through cross-validation and grid search hyperparameter tuning, I optimized the models for balanced performance on imbalanced data. The final analysis achieved strong precision and recall, supported by visual diagnostics such as confusion matrices and ROC curves. This project reflects my ability to structure, analyze, and communicate applied data science solutions in a real-world context.",
+  image: "/images/RedWine.jpg",
+  technologies: [
+    "Python",
+    "Scikit-learn",
+    "Pandas",
+    "Matplotlib",
+    "Random Forest",
+    "XGBoost",
+    "Feature Engineering",
+    "EDA",
+    "GridSearchCV",
+    "Binary Classification"
+  ],
+  category: "datascience",
+},
+  {
     id: "covid-vaccine-analysis",
     title: "Impact of the Covid-19 Vaccine on Death Rates in R",
     description:
