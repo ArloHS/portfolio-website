@@ -100,6 +100,30 @@ const projects: Project[] = [
     additionalCategories: ["datascience"],
   },
   {
+  id: "rl_agents",
+  title: "Model-Free Reinforcement Learning Agents in Stochastic MDP Environments",
+  description:
+    "Designed and implemented two model-free reinforcement learning agents capable of autonomously navigating and learning within stochastic Markov Decision Process (MDP) environments. The project explores the dynamics of Q-Learning and SARSA algorithms, both trained to optimize cumulative reward through adaptive exploration-exploitation strategies. Built custom gridworld-style simulation environments featuring obstacles, recharge and work stations, and complex energy dynamics, requiring the agent to balance task completion with survival. Reward shaping, decaying ε-greedy policies, and stochastic transition modeling were key to achieving emergent intelligent behaviors such as adaptive resource management and exploration after high-reward events. This project demonstrates deep understanding of reinforcement learning theory, dynamic programming limitations, and real-world-inspired agent-environment interactions.",
+  image: "/images/RL_2.png",
+  technologies: [
+    "Python",
+    "Reinforcement Learning",
+    "Q-Learning",
+    "SARSA",
+    "Model-Free Agents",
+    "Markov Decision Processes (MDP)",
+    "Stochastic Environments",
+    "Reward Shaping",
+    "Exploration-Exploitation Tradeoff",
+    "Epsilon Decay",
+    "Gridworld Simulation",
+    "Custom Environment Design",
+    "Agent-Based Modeling",
+  ],
+  category: "featured",
+  additionalCategories: ["datascience"],
+},
+  {
     id: "fusion-app",
     title: "Fusion: A Real-Time Collaborative Note-Taking Web Application",
     description:
