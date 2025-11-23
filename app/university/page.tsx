@@ -232,7 +232,7 @@ const universityData: YearData[] = [
   },
   {
     year: "4th Year",
-    status: "current",
+    status: "completed",
     totalCourses: 7,
     courses: [
       {
@@ -272,8 +272,8 @@ const universityData: YearData[] = [
         categories: ["cs"],
       },
       {
-        title: "Machine Learning and AI 471",
-        description: "In Progress",
+        title: "Machine Learning and AI 472",
+        description: "This module introduced me to the core ideas behind Cognitive Robotics and intelligent autonomous agents. I learned how logic-based agents work, how to represent knowledge using First-Order Logic, and how to write simple programs in Prolog and ProbLog. The course covered automated planning, Bayesian and Decision networks, Dynamic Bayesian Networks, and how to perform filtering for state estimation. I also studied Boolean/Arithmetic circuits, Markov Decision Processes, and key Reinforcement Learning algorithms like value iteration, policy iteration, and gradient-based methods. Overall, the module gave me a foundational understanding of how agents reason, plan, act, and learn under uncertainty.",
         categories: ["ml", "ds", "cs"],
       },
     ],
@@ -311,7 +311,7 @@ export default function UniversityPage() {
     "1st Year": false,
     "2nd Year": false,
     "3rd Year": false,
-    "4th Year": true, // Open current year by default
+    "4th Year": false, // Open current year by default
   })
 
   const toggleYear = (year: string) => {
@@ -336,8 +336,8 @@ export default function UniversityPage() {
         </div>
         <h2 className="text-2xl font-semibold mb-6 text-teal-600">Focal Area: Computer Science</h2>
         <p className="max-w-2xl mx-auto mb-8 text-slate-600 dark:text-slate-400">
-          Pursuing at <strong>Stellenbosch University</strong>, this degree provides a comprehensive foundation in data
-          science, computer science, mathematics, and statistics.
+          Completed at <strong>Stellenbosch University</strong>,
+          this degree provided a comprehensive foundation in data science, computer science, mathematics, and statistics.
         </p>
 
         {/* Progress Overview */}

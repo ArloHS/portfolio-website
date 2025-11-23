@@ -29,15 +29,15 @@ export default function Home() {
           <h2 className="text-3xl font-bold text-center mb-8">About Me</h2>
           <div className="max-w-3xl mx-auto space-y-6 text-slate-700 dark:text-slate-300">
             <p>
-              I am a 4th-year Data Science student with a strong Computer Science foundation, adept at navigating the
-              intersection of mathematics, statistics, and programming. My academic training encompasses linear algebra,
-              calculus, probability, optimization, and advanced statistical methods like hypothesis testing, predictive
-              modeling, and stochastic processes.
+              I am a Data Scientist with a strong Computer Science foundation, skilled in working across the 
+              intersection of mathematics, statistics, and programming. My background includes linear algebra, 
+              calculus, probability, optimization, and advanced statistical methods such as hypothesis testing, 
+              predictive modeling, and stochastic processes.
             </p>
             <p>
-              Beyond academia, I am continuously refining my technical and communication skills. I'm passionate about
-              tackling challenging data problems, whether it's developing machine learning models, fine-tuning language
-              models, or crafting data-driven applications that turn raw information into actionable insight.
+              I continuously refine both my technical and communication skills, 
+              and I’m passionate about solving complex data challenges, whether developing machine learning models,
+               fine-tuning language models, or building data-driven applications that turn raw information into actionable insights.
             </p>
             <p>
               If you'd like to learn more about my academic journey, practical experience, and personal projects,
@@ -68,7 +68,7 @@ export default function Home() {
               title="Bachelor of Data Science (BDatSci)"
               institution="Stellenbosch University"
               period="February 2021 - December 2025"
-              details="Focal Area: Computer Science • Currently in 4th year"
+              details="Focal Area: Computer Science"
               description="Comprehensive program covering mathematical foundations, statistical modeling, machine learning, and computer science principles."
             />
 

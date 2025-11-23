@@ -59,7 +59,7 @@ export default function AboutPage() {
               </h2>
               <div className="space-y-4 text-slate-700 dark:text-slate-300">
                 <p>
-                  As a dedicated 4th-year data science student with a strong background in computer science, I bring a
+                  As a dedicated Data Scientist with a strong background in computer science, I bring a
                   unique blend of advanced mathematical rigor, statistical modeling expertise, and programming
                   proficiency. My degree has provided me with a deep understanding of core mathematical concepts such as
                   linear algebra, calculus, probability, and optimization, alongside advanced statistical methods like
@@ -97,7 +97,7 @@ export default function AboutPage() {
                       <h3 className="text-xl font-semibold">Bachelor of Data Science (BDatSci)</h3>
                       <p className="text-teal-600 dark:text-teal-400 font-medium">Stellenbosch University</p>
                       <p className="text-sm text-slate-500 dark:text-slate-400">
-                        February 2021 - December 2025 (4th Year)
+                        February 2021 - December 2025
                       </p>
                       <p className="text-sm font-medium text-slate-700 dark:text-slate-300 mt-1">
                         Focal Area: Computer Science
