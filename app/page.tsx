@@ -1,9 +1,11 @@
 import type React from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight, Code, Database, LineChart, ChevronRight, GraduationCap, Award, BookOpen, BarChart3, Brain, Cloud, Cog, Server, Zap } from "lucide-react"
+import { ArrowRight, Code, Database, LineChart, ChevronRight, GraduationCap, Award, BookOpen, BarChart3, Brain, Cloud, Cog, Server, Zap, Calendar, Clock, MapPin, Briefcase } from "lucide-react"
+import { getSortedWorkExperiences, formatDateRange, calculateDuration, getWorkProjects } from "@/lib/data"
 
 export default function Home() {
   return (
@@ -53,6 +55,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Work Experience Section */}
+      <WorkExperienceSection />
 
       {/* Qualifications Section */}
       <section className="py-16 bg-slate-50 dark:bg-slate-900">
@@ -390,6 +395,82 @@ function SkillCard({
         </ul>
       </CardContent>
     </Card>
+  )
+}
+
+function WorkExperienceSection() {
+  const workExperiences = getSortedWorkExperiences()
+
+  return (
+    <section className="py-16 bg-slate-50 dark:bg-slate-900">
+      <div className="container mx-auto px-4">
+        <h2 className="text-3xl font-bold text-center mb-2">Work Experience</h2>
+        <p className="text-center max-w-2xl mx-auto mb-12 text-slate-600 dark:text-slate-400">
+          Professional roles where I apply data science to solve real business problems.
+        </p>
+
+        <div className="max-w-4xl mx-auto space-y-6">
+          {workExperiences.map((work) => {
+            const projectCount = getWorkProjects(work.id).length
+            return (
+              <Link key={work.id} href={`/work/${work.id}`} className="block group">
+                <Card className="transition-all hover:shadow-lg hover:-translate-y-1 overflow-hidden border-l-4 border-l-teal-600">
+                  <CardContent className="p-6">
+                    <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+                      <div className="flex-shrink-0">
+                        <div className="w-16 h-16 relative rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 bg-white">
+                          <Image
+                            src={work.logo}
+                            alt={`${work.company} logo`}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-2">
+                          <div>
+                            <h3 className="text-xl font-bold group-hover:text-teal-600 transition-colors">{work.company}</h3>
+                            <p className="text-base font-semibold text-teal-600 dark:text-teal-400">{work.role}</p>
+                          </div>
+                          {!work.endDate && (
+                            <Badge className="bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200 self-start">
+                              Current
+                            </Badge>
+                          )}
+                        </div>
+                        <div className="flex flex-wrap gap-3 text-sm text-slate-500 dark:text-slate-400 mb-3">
+                          <span className="flex items-center"><Calendar className="h-3.5 w-3.5 mr-1" />{formatDateRange(work.startDate, work.endDate)}</span>
+                          <span className="flex items-center"><Clock className="h-3.5 w-3.5 mr-1" />{calculateDuration(work.startDate, work.endDate)}</span>
+                          <span className="flex items-center"><MapPin className="h-3.5 w-3.5 mr-1" />{work.location}</span>
+                          {projectCount > 0 && (
+                            <span className="flex items-center"><Briefcase className="h-3.5 w-3.5 mr-1" />{projectCount} project{projectCount !== 1 ? "s" : ""}</span>
+                          )}
+                        </div>
+                        <p className="text-slate-600 dark:text-slate-400 text-sm line-clamp-2">
+                          {work.companyDescription.split(".").slice(0, 2).join(".") + "."}
+                        </p>
+                      </div>
+                      <div className="hidden sm:flex items-center self-center">
+                        <ChevronRight className="h-5 w-5 text-slate-400 group-hover:text-teal-600 transition-colors" />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            )
+          })}
+        </div>
+
+        <div className="text-center mt-10">
+          <Link href="/work">
+            <Button size="lg" className="bg-teal-600 hover:bg-teal-700">
+              View All Work Experience <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </section>
   )
 }
 

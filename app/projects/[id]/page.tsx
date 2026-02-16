@@ -691,15 +691,25 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
       <div className="max-w-5xl mx-auto">
         <h1 className="text-3xl md:text-4xl font-bold mb-6 text-center">{project.title}</h1>
-        {project.githublink && (
-          <div className="mb-6 flex justify-center"> {/* Added flex and justify-center */}
+        <div className="mb-6 flex justify-center gap-3 flex-wrap">
+          {project.githublink && (
             <Button asChild variant="outline">
               <a href={project.githublink} target="_blank" rel="noopener noreferrer">
                 View on GitHub
               </a>
             </Button>
-          </div>
-        )}
+          )}
+          {project.workId && (() => {
+            const work = getWorkById(project.workId)
+            return work ? (
+              <Button asChild variant="outline" className="border-teal-600 text-teal-600 hover:bg-teal-50 dark:hover:bg-teal-950">
+                <Link href={`/work/${work.id}`}>
+                  View at {work.company}
+                </Link>
+              </Button>
+            ) : null
+          })()}
+        </div>
         <div className="mb-8 relative h-[300px] md:h-[400px] w-full rounded-lg overflow-hidden">
           <ProjectImageFallback
             src={project.image || "/placeholder.svg"}
