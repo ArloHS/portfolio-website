@@ -5,20 +5,11 @@ import { ProjectImageFallback } from "@/components/project-image-fallback"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ChevronRight } from "lucide-react"
+import { projects, belongsToCategory, type Project } from "@/lib/data"
 
-// Project type definition
-type Project = {
-  id: string
-  title: string
-  description: string
-  image: string
-  technologies?: string[]
-  category: "featured" | "mlops" | "datascience" | "computerscience"
-  additionalCategories?: ("mlops" | "datascience" | "computerscience")[] // For featured projects that belong to multiple categories
-}
-
-// Project data
-const projects: Project[] = [
+// Legacy inline data replaced by shared data layer import above.
+// Keeping a marker comment so the rest of the file structure is preserved.
+const _legacyProjectsRemoved = [
   // Featured Projects
   {
     id: "honours-project",
@@ -565,19 +556,12 @@ const projects: Project[] = [
 ]
 
 export default function ProjectsPage() {
-  // Helper function to check if a project belongs to a category
-  const belongsToCategory = (project: Project, category: string) => {
-    return (
-      project.category === category ||
-      (project.additionalCategories && project.additionalCategories.includes(category as any))
-    )
-  }
-
-  // Filter projects by category
+  // Filter projects by category using shared helper
   const featuredProjects = projects.filter((project) => project.category === "featured")
   const mlopsProjects = projects.filter((project) => belongsToCategory(project, "mlops"))
   const datascienceProjects = projects.filter((project) => belongsToCategory(project, "datascience"))
   const csProjects = projects.filter((project) => belongsToCategory(project, "computerscience"))
+  const workProjects = projects.filter((project) => belongsToCategory(project, "work"))
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -587,17 +571,26 @@ export default function ProjectsPage() {
       </p>
 
       <Tabs defaultValue="featured" className="w-full mb-12">
-        <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 mb-8">
+        <TabsList className="grid w-full grid-cols-3 md:grid-cols-5 mb-8">
           <TabsTrigger value="featured">Featured</TabsTrigger>
-          <TabsTrigger value="mlops">MLOps Engineering</TabsTrigger>
+          <TabsTrigger value="work">Work</TabsTrigger>
+          <TabsTrigger value="mlops">MLOps</TabsTrigger>
           <TabsTrigger value="datascience">Data Science</TabsTrigger>
-          <TabsTrigger value="computerscience">Computer Science</TabsTrigger>
+          <TabsTrigger value="computerscience">CS</TabsTrigger>
         </TabsList>
 
         <TabsContent value="featured" className="mt-6">
           <div className="grid grid-cols-1 gap-8">
             {featuredProjects.map((project) => (
               <ProjectCard key={project.id} project={project} featured={false} />
+            ))}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="work" className="mt-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {workProjects.map((project) => (
+              <ProjectCard key={project.id} project={project} />
             ))}
           </div>
         </TabsContent>

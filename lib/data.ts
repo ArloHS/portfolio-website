@@ -1,14 +1,160 @@
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { ArrowLeft } from "lucide-react"
-import { ProjectImageFallback } from "@/components/project-image-fallback"
-import Link from "next/link"
-import { notFound } from "next/navigation"
-import { projects, getWorkById } from "@/lib/data"
+// ==========================================
+// Shared Data Layer - Single Source of Truth
+// ==========================================
 
-// Legacy inline data replaced by shared data layer import above.
-const _legacyProjectsRemoved = [
+// ---- Type Definitions ----
+
+export type CategoryType = "featured" | "mlops" | "datascience" | "computerscience" | "work"
+
+export type Project = {
+  id: string
+  title: string
+  description: string
+  image: string
+  technologies?: string[]
+  category: CategoryType
+  additionalCategories?: CategoryType[]
+  githublink?: string
+  workId?: string // optional reference to a work experience
+}
+
+export type WorkExperience = {
+  id: string
+  company: string
+  logo: string
+  role: string
+  startDate: string // ISO month format: "2025-01"
+  endDate: string | null // null = "Present"
+  location: string
+  companyDescription: string
+  jobDescription: string
+  technologies: string[]
+  projectIds: string[] // references to project IDs
+}
+
+// ---- Helper Functions ----
+
+export function formatDateRange(startDate: string, endDate: string | null): string {
+  const start = new Date(startDate + "-01")
+  const startStr = start.toLocaleDateString("en-US", { month: "short", year: "numeric" })
+
+  if (!endDate) {
+    return `${startStr} - Present`
+  }
+
+  const end = new Date(endDate + "-01")
+  const endStr = end.toLocaleDateString("en-US", { month: "short", year: "numeric" })
+  return `${startStr} - ${endStr}`
+}
+
+export function calculateDuration(startDate: string, endDate: string | null): string {
+  const start = new Date(startDate + "-01")
+  const end = endDate ? new Date(endDate + "-01") : new Date()
+
+  const months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth())
+  const years = Math.floor(months / 12)
+  const remainingMonths = months % 12
+
+  if (years === 0) {
+    return `${remainingMonths} mo${remainingMonths !== 1 ? "s" : ""}`
+  }
+  if (remainingMonths === 0) {
+    return `${years} yr${years !== 1 ? "s" : ""}`
+  }
+  return `${years} yr${years !== 1 ? "s" : ""} ${remainingMonths} mo${remainingMonths !== 1 ? "s" : ""}`
+}
+
+export function getWorkProjects(workId: string): Project[] {
+  return projects.filter((p) => p.workId === workId)
+}
+
+export function getWorkById(id: string): WorkExperience | undefined {
+  return workExperiences.find((w) => w.id === id)
+}
+
+export function getProjectById(id: string): Project | undefined {
+  return projects.find((p) => p.id === id)
+}
+
+export function belongsToCategory(project: Project, category: string): boolean {
+  return (
+    project.category === category ||
+    (project.additionalCategories !== undefined &&
+      project.additionalCategories.includes(category as CategoryType))
+  )
+}
+
+// Sorted descending: present jobs first, then by endDate desc, then startDate desc
+export function getSortedWorkExperiences(): WorkExperience[] {
+  return [...workExperiences].sort((a, b) => {
+    if (!a.endDate && !b.endDate) {
+      return b.startDate.localeCompare(a.startDate)
+    }
+    if (!a.endDate) return -1
+    if (!b.endDate) return 1
+    return b.endDate.localeCompare(a.endDate)
+  })
+}
+
+// ---- Work Experience Data ----
+
+export const workExperiences: WorkExperience[] = [
+  {
+    id: "unifi-africa",
+    company: "Unifi Africa",
+    logo: "/images/unifi-logo.jpg",
+    role: "Data Scientist",
+    startDate: "2025-01",
+    endDate: null,
+    location: "South Africa",
+    companyDescription:
+      "Unifi Africa is a leading fintech company that provides personal credit solutions across Africa, operating in South Africa, Uganda, Zambia, and Kenya. The company leverages advanced data analytics, artificial intelligence, and machine learning to redefine personal lending in underserved markets where traditional banking and credit facilities are limited. Through their proprietary in-house loans management system (Unibos) and mobile USSD application (Uniapp), Unifi makes financial services accessible, fast, and intelligent for clients across the continent. Their mission is to make life easy for clients by combining technology with exceptional customer service to deliver simple, transparent credit solutions.",
+    jobDescription:
+      "As a Data Scientist at Unifi Africa, I apply machine learning and statistical modeling to solve complex business challenges in the consumer lending space. My work focuses on developing and deploying predictive models that optimize collections strategies, assess credit risk, and improve customer outcomes. I collaborate with cross-functional teams including engineering, product, and business stakeholders to translate data-driven insights into actionable strategies. Key responsibilities include building and maintaining production-grade machine learning pipelines, conducting exploratory data analysis on large-scale financial datasets, and implementing models that directly impact revenue recovery and operational efficiency. I work with Python, SQL, and cloud-based tools to design scalable solutions that support Unifi's mission of intelligent lending across Africa.",
+    technologies: [
+      "Python",
+      "SQL",
+      "Machine Learning",
+      "Predictive Modeling",
+      "Data Analytics",
+      "XGBoost",
+      "Scikit-learn",
+      "Pandas",
+      "Cloud Computing",
+      "Statistical Modeling",
+    ],
+    projectIds: ["collections-prioritization-model"],
+  },
+]
+
+// ---- Project Data ----
+
+export const projects: Project[] = [
+  // Work Projects
+  {
+    id: "collections-prioritization-model",
+    title: "Collections Prioritization Model",
+    description:
+      "Developed a machine learning-driven collections prioritization model to optimize debt recovery strategies at Unifi Africa. The model ranks delinquent accounts by their likelihood of repayment, enabling the collections team to focus resources on the highest-impact cases first. Using historical repayment data, customer demographics, loan characteristics, and behavioral features, the model assigns a priority score to each account. Techniques include gradient boosting (XGBoost), feature engineering from transactional data, and threshold optimization to balance recovery rates against operational costs. The model integrates into Unifi's existing workflows, providing daily updated priority lists that have improved collection efficiency and recovery rates. Comprehensive evaluation was conducted using precision-recall curves, lift charts, and business-impact simulations to ensure the model delivers measurable value.",
+    image: "/images/collections-model.jpg",
+    technologies: [
+      "Python",
+      "XGBoost",
+      "Scikit-learn",
+      "Pandas",
+      "SQL",
+      "Feature Engineering",
+      "Predictive Modeling",
+      "Threshold Optimization",
+      "Business Analytics",
+      "Data Pipeline",
+    ],
+    category: "work",
+    additionalCategories: ["datascience"],
+    workId: "unifi-africa",
+  },
+
+  // Featured Projects
   {
     id: "honours-project",
     title: "Self-Healing Machine Learning Pipeline with Anomaly Detection",
@@ -26,16 +172,8 @@ const _legacyProjectsRemoved = [
       "SHAP",
       "LIME",
       "Bayesian Optimization",
-      "Time Series Forecasting",
+      "Time Series",
       "Anomaly Detection",
-      "AutoML",
-      "CI/CD",
-      "MLOps",
-      "Explainable AI",
-      "Model Drift Detection",
-      "Synthetic Data Generation",
-      "Meta-Learning",
-      "Ensemble Methods",
     ],
     category: "featured",
     additionalCategories: ["mlops", "datascience"],
@@ -46,90 +184,9 @@ const _legacyProjectsRemoved = [
     description:
       "I fine-tuned the LLaMA-3B model, a 3-billion parameter large language model by Meta, on a custom dataset of 39,668 question-and-answer pairs scraped from the Cross Validated platform, focusing on data science, artificial intelligence, and machine learning topics. Using Python and BeautifulSoup4 for data scraping, I ensured ethical compliance by excluding code blocks and personal information. The dataset was cleaned, normalized, and structured into a format suitable for LLaMA fine-tuning. Fine-tuning was performed using the LoRA technique, which significantly reduced computational overhead by updating only a subset of the model parameters. UnSloth optimization was employed to streamline the process, leveraging techniques like layer-freezing, gradient checkpointing, and dynamic hyperparameter tuning. Two models were trained: one on the full dataset for a single epoch and another on a subset of 10,000 entries for three epochs. The latter provided deeper conceptual responses, demonstrating the trade-off between data size and training iterations. The project concludes with a benchmarking analysis of the models' performance, highlighting their ability to generate accurate, context-aware responses to technical queries.",
     image: "/images/DS346.jpg",
-    technologies: [
-      "Python",
-      "LLaMA",
-      "LoRA",
-      "UnSloth",
-      "BeautifulSoup4",
-      "NLP",
-      "Fine-tuning",
-      "Data Scraping",
-      "Machine Learning",
-      "Large Language Models",
-    ],
+    technologies: ["Python", "LLaMA", "LoRA", "UnSloth", "BeautifulSoup4", "NLP"],
     category: "featured",
     additionalCategories: ["datascience"],
-  },
-  {
-    id: "fusion-app",
-    title: "Fusion: A Real-Time Collaborative Note-Taking Web Application",
-    description:
-      "Developed Fusion, a real-time collaborative markdown note-taking web application designed to facilitate seamless teamwork. Built using React.js for the frontend with Tailwind CSS for styling, and Node.js with Express and GraphQL for the backend, the application leverages PostgreSQL for robust data management and WebSocket for live collaboration. Key features include real-time editing, user management, markdown functionality, and note sharing, supported by secure JWT-based authentication and hashed password storage. The app employs design patterns like Model-View-Controller (MVC), Singleton, and Observer to ensure a scalable, maintainable architecture. Hosted on Microsoft Azure with PostgreSQL, Fusion is tailored for academic and professional teams seeking efficient, organized, and collaborative note management.",
-    image: "/images/CS343P2.png",
-    technologies: [
-      "React.js",
-      "Node.js",
-      "GraphQL",
-      "PostgreSQL",
-      "WebSocket",
-      "Tailwind CSS",
-      "JWT",
-      "Microsoft Azure",
-      "Express",
-      "Authentication",
-      "Real-time Collaboration",
-      "Markdown",
-      "Design Patterns",
-    ],
-    category: "featured",
-    additionalCategories: ["computerscience"],
-  },
-  {
-    id: "timekeeper",
-    title: "Timekeeper: A Secure Time Tracking and Management Platform",
-    description:
-      "Built a comprehensive time tracking web application with distinct user and admin roles to streamline employee time management and reporting. Employees can log work hours with safeguards against future or invalid entries, while managers can monitor, update, and manage employee records, projects, and team performance metrics. Key features include real-time dashboards for tracking missing timesheets, visual insights through interactive charts (e.g., cumulative bar charts and project-specific stats), and robust authorization and encryption mechanisms to ensure data security. The platform is designed for seamless usability, with dynamic updates eliminating the need for page refreshes and a consistent, professional UI. This project demonstrates expertise in creating scalable, secure, and user-friendly solutions for workplace time management.",
-    image: "/images/CS344P.jpg",
-    technologies: [
-      "JavaScript",
-      "React",
-      "Node.js",
-      "Express",
-      "MongoDB",
-      "Chart.js",
-      "Authentication",
-      "Authorization",
-      "Data Visualization",
-      "User Experience Design",
-      "Role-based Access Control",
-      "Real-time Updates",
-    ],
-    category: "featured",
-    additionalCategories: ["computerscience"],
-  },
-  {
-    id: "alan-compiler",
-    title: "Compiler for ALAN: An Educational LL(1) Language",
-    description:
-      "Designed and implemented a low-level compiler for ALAN, an educational LL(1) language, using C to demonstrate core concepts in compiler design and execution. The project encompassed all major phases of compilation, including lexical analysis (scanner), syntax analysis (parser), semantic analysis (symbol table and type checking), and JVM-targeted code generation. Leveraging the low-level capabilities of C, the compiler utilized manual memory management and pointer arithmetic to optimize data structures such as abstract syntax trees and symbol tables. Recursive-descent parsing techniques were employed for efficient and modular syntax processing, while errors such as unclosed comments and type mismatches were robustly handled. The final output generated Jasmin assembly code for seamless execution on the JVM. This project showcases expertise in low-level programming, compiler design, and efficient code generation for educational languages.",
-    image: "/images/CS244P1.png",
-    technologies: [
-      "C",
-      "Compiler Design",
-      "JVM",
-      "Jasmin Assembly",
-      "Recursive-Descent Parsing",
-      "Lexical Analysis",
-      "Syntax Analysis",
-      "Semantic Analysis",
-      "Code Generation",
-      "Memory Management",
-      "Abstract Syntax Trees",
-      "Symbol Tables",
-    ],
-    category: "featured",
-    additionalCategories: ["computerscience"],
   },
   {
     id: "whatsdown",
@@ -148,12 +205,8 @@ const _legacyProjectsRemoved = [
       "RBUDP Protocol",
       "Real-time Audio",
       "Peer-to-Peer",
-      "Client-Server Architecture",
       "Voice Processing",
       "File Transfer",
-      "Database Management",
-      "GUI Development",
-      "Network Security",
     ],
     category: "featured",
     additionalCategories: ["computerscience"],
@@ -169,69 +222,101 @@ const _legacyProjectsRemoved = [
       "Scikit-learn",
       "Logistic Regression",
       "Ridge Regularization",
-      "Lasso Regularization",
-      "Elastic Net",
       "Random Forest",
       "GridSearchCV",
       "K-Fold Cross-Validation",
       "Healthcare ML",
       "Feature Engineering",
-      "EDA",
-      "Statistical Analysis",
       "Risk Classification",
       "Medical Diagnostics",
-      "Hyperparameter Tuning",
-      "Cross-validation",
-      "Outlier Detection",
-      "Model Comparison",
+      "Statistical Analysis",
     ],
     category: "featured",
     additionalCategories: ["datascience"],
   },
   {
+    id: "rl_agents",
+    title: "Model-Free Reinforcement Learning Agents in Stochastic MDP Environments",
+    description:
+      "Designed and implemented two model-free reinforcement learning agents capable of autonomously navigating and learning within stochastic Markov Decision Process (MDP) environments. The project explores the dynamics of Q-Learning and SARSA algorithms, both trained to optimize cumulative reward through adaptive exploration-exploitation strategies. Built custom gridworld-style simulation environments featuring obstacles, recharge and work stations, and complex energy dynamics, requiring the agent to balance task completion with survival. Reward shaping, decaying ε-greedy policies, and stochastic transition modeling were key to achieving emergent intelligent behaviors such as adaptive resource management and exploration after high-reward events. This project demonstrates deep understanding of reinforcement learning theory, dynamic programming limitations, and real-world-inspired agent-environment interactions.",
+    image: "/images/RL_2.png",
+    technologies: [
+      "Python",
+      "Reinforcement Learning",
+      "Q-Learning",
+      "SARSA",
+      "Model-Free Agents",
+      "Markov Decision Processes (MDP)",
+      "Stochastic Environments",
+      "Reward Shaping",
+      "Exploration-Exploitation Tradeoff",
+      "Epsilon Decay",
+      "Gridworld Simulation",
+      "Custom Environment Design",
+      "Agent-Based Modeling",
+    ],
+    category: "featured",
+    additionalCategories: ["datascience"],
+  },
+  {
+    id: "fusion-app",
+    title: "Fusion: A Real-Time Collaborative Note-Taking Web Application",
+    description:
+      "Developed Fusion, a real-time collaborative markdown note-taking web application designed to facilitate seamless teamwork. Built using React.js for the frontend with Tailwind CSS for styling, and Node.js with Express and GraphQL for the backend, the application leverages PostgreSQL for robust data management and WebSocket for live collaboration. Key features include real-time editing, user management, markdown functionality, and note sharing, supported by secure JWT-based authentication and hashed password storage. The app employs design patterns like Model-View-Controller (MVC), Singleton, and Observer to ensure a scalable, maintainable architecture. Hosted on Microsoft Azure with PostgreSQL, Fusion is tailored for academic and professional teams seeking efficient, organized, and collaborative note management.",
+    image: "/images/CS343P2.png",
+    technologies: ["React.js", "Node.js", "GraphQL", "PostgreSQL", "WebSocket", "Tailwind CSS", "JWT"],
+    category: "featured",
+    additionalCategories: ["computerscience"],
+  },
+  {
+    id: "timekeeper",
+    title: "Timekeeper: A Secure Time Tracking and Management Platform",
+    description:
+      "Built a comprehensive time tracking web application with distinct user and admin roles to streamline employee time management and reporting. Employees can log work hours with safeguards against future or invalid entries, while managers can monitor, update, and manage employee records, projects, and team performance metrics. Key features include real-time dashboards for tracking missing timesheets, visual insights through interactive charts (e.g., cumulative bar charts and project-specific stats), and robust authorization and encryption mechanisms to ensure data security. The platform is designed for seamless usability, with dynamic updates eliminating the need for page refreshes and a consistent, professional UI. This project demonstrates expertise in creating scalable, secure, and user-friendly solutions for workplace time management.",
+    image: "/images/CS344P.jpg",
+    technologies: ["JavaScript", "React", "Node.js", "Express", "MongoDB", "Chart.js", "Authentication"],
+    category: "featured",
+    additionalCategories: ["computerscience"],
+  },
+  {
+    id: "alan-compiler",
+    title: "Compiler for ALAN: An Educational LL(1) Language",
+    description:
+      "Designed and implemented a low-level compiler for ALAN, an educational LL(1) language, using C to demonstrate core concepts in compiler design and execution. The project encompassed all major phases of compilation, including lexical analysis (scanner), syntax analysis (parser), semantic analysis (symbol table and type checking), and JVM-targeted code generation. Leveraging the low-level capabilities of C, the compiler utilized manual memory management and pointer arithmetic to optimize data structures such as abstract syntax trees and symbol tables. Recursive-descent parsing techniques were employed for efficient and modular syntax processing, while errors such as unclosed comments and type mismatches were robustly handled. The final output generated Jasmin assembly code for seamless execution on the JVM. This project showcases expertise in low-level programming, compiler design, and efficient code generation for educational languages.",
+    image: "/images/CS244P1.png",
+    technologies: ["C", "Compiler Design", "JVM", "Jasmin Assembly", "Recursive-Descent Parsing"],
+    category: "featured",
+    additionalCategories: ["computerscience"],
+  },
+
+  // Data Science/Machine Learning Projects
+  {
     id: "a-star-pathfinding",
     title: "A* Search Algorithm for Pathfinding in Mazes and Maps",
     description:
-      "Developed an elegant implementation of the A* search algorithm in Python, showcasing its power in solving pathfinding problems across two domains: mazes and maps. Designed an abstract A* framework using a min heap for efficient node exploration, enabling reusable and robust code across problem types. For mazes, implemented a grid-based setup with 8-directional movement, using Manhattan and Euclidean heuristics to guide the search. For maps, modeled a weighted graph of South African cities with (x,y) coordinates, leveraging adjacency lists for neighbor traversal. Integrated Dijkstra’s algorithm (A* with zero heuristic) for comparison, highlighting the critical role of heuristics in reducing search space. Created visualizations using Pygame for mazes, displaying open/closed cells and paths, and attempted graph visualizations for maps with nodes and weighted edges. Conducted experiments on varying complexity levels (low, medium, high) for both domains, analyzing execution time, path cost, and nodes visited to evaluate algorithm efficiency and heuristic impact. The project, detailed in a technical report, demonstrates A*’s versatility and the importance of smart heuristic design in pathfinding.",
+      "I implemented a robust A* search algorithm in Python to tackle pathfinding challenges in maze and map domains, emphasizing the power of heuristics in optimizing search efficiency. The project featured an abstract A* implementation using a min heap for efficient node prioritization, ensuring reusable and scalable code across problem types. For mazes, I designed a grid-based system supporting 8-directional movement, employing Manhattan and Euclidean heuristics to guide pathfinding. For maps, I modeled a weighted graph representing South African cities with (x,y) coordinates, using adjacency lists for neighbor exploration. I also implemented Dijkstra's algorithm (A* with zero heuristic) for comparative analysis, highlighting the heuristic's role in reducing explored nodes. Visualizations were created using Pygame for mazes, showcasing open/closed cells and optimal paths, and for maps, displaying nodes and weighted edges. Experiments were conducted across low, medium, and high complexity levels for both domains, analyzing execution time, path cost, and nodes visited to assess algorithm performance and heuristic effectiveness. A detailed technical report was authored, documenting the methodology, implementation challenges, and experimental setup, underscoring the importance of heuristic design in efficient pathfinding.",
     image: "/images/MLAIA1.png",
     technologies: [
+      "Python",
       "A* Search",
-      "Dijkstra’s Algorithm",
-      "Pathfinding",
+      "Dijkstra's Algorithm",
+      "Pygame",
       "Heuristics",
       "Manhattan Distance",
       "Euclidean Distance",
       "Min Heap",
-      "Pygame",
       "Graph Theory",
-      "Maze Generation",
-      "Python"
     ],
     category: "datascience",
-    githublink: "https://github.com/ArloHS/A_Star-Heuristics-Visualized"
   },
-  // Data Science/Machine Learning Projects
   {
     id: "bean-classification",
     title: "Dry Bean Classification: A Data-Driven Approach to Machine Learning Optimization",
     description:
       "I developed a machine learning pipeline to classify dry bean types using a dataset of 13,611 samples and 22 features. The project involved identifying and addressing key data quality issues, including skewness, missing values, and class imbalances. I implemented robust preprocessing techniques such as imputation for missing data, SMOTE Tomek for balancing class distributions, and log and Yeo-Johnson transformations to correct skewness. The data was standardized to ensure consistent feature scaling, and backward subset selection was used to optimize feature sets for each model. Two classification models, K-Nearest Neighbors (KNN) and Decision Tree Classifier (DTC), were built and tuned. KNN was optimized for the number of neighbors (`k=5`), while the DTC model underwent cost-complexity pruning to improve generalization and reduce overfitting. Both models were evaluated using 5-fold cross-validation and performed exceptionally well, achieving accuracies of 98.76% for KNN and 98.49% for DTC. While KNN demonstrated slightly higher accuracy, DTC was preferred for its simplicity, stability, and computational efficiency. Additionally, I authored a comprehensive report detailing the methodology, data preprocessing, model development, and evaluation processes. The report emphasized the critical role of preprocessing in achieving reliable machine learning outcomes.",
     image: "/images/MLAss1.png",
-    technologies: [
-      "Python",
-      "Scikit-learn",
-      "KNN",
-      "Decision Trees",
-      "SMOTE",
-      "Cross-validation",
-      "Data Preprocessing",
-      "Feature Selection",
-      "Class Imbalance",
-      "Model Evaluation",
-      "Machine Learning Pipeline",
-    ],
+    technologies: ["Python", "Scikit-learn", "KNN", "Decision Trees", "SMOTE", "Cross-validation"],
     category: "datascience",
-    githublink: "https://github.com/ArloHS/Dry-Bean-Classification-A-Data-Driven-Approach-to-Machine-Learning-Optimization",
   },
   {
     id: "neural-network-comparison",
@@ -239,63 +324,17 @@ const _legacyProjectsRemoved = [
     description:
       "Conducted a comprehensive study comparing three neural network training algorithms: Stochastic Gradient Descent (SGD), Scaled Conjugate Gradient (SCG), and LeapFrog Optimization (LFO) across three classification tasks (Iris, Breast Cancer, CIFAR-10) and three function approximation tasks (Linear, Trigonometric, Complex). Built 18 feedforward neural network models using a single hidden layer, ReLU activation, L2 regularization, and early stopping, with datasets preprocessed through normalization and one-hot encoding. Bayesian optimization was employed to tune hyperparameters such as learning rates, momentum, and damping factors. Results showed SCG as the fastest for simpler classification tasks, while SGD excelled in function approximation and generalization to complex datasets. LFO demonstrated slower convergence but showed potential with relaxed early stopping. The findings, detailed in a formal technical report, provide insights into the suitability of each optimizer based on task complexity and resource constraints.",
     image: "/images/MLAss2.png",
-    technologies: [
-      "Neural Networks",
-      "SGD",
-      "SCG",
-      "LFO",
-      "Bayesian Optimization",
-      "TensorFlow",
-      "Classification",
-      "Function Approximation",
-      "Hyperparameter Tuning",
-      "Early Stopping",
-      "L2 Regularization",
-    ],
+    technologies: ["Neural Networks", "SGD", "SCG", "LFO", "Bayesian Optimization", "TensorFlow"],
     category: "datascience",
-    githublink: "https://github.com/ArloHS/Comparative-Analysis-of-Neural-Network-Training-Algorithms",
   },
   {
     id: "random-forest-hyperparameters",
     title: "Does Size Matter? Hyperparameter Tuning in Random Forests",
     description:
-      "This project explored the impact of key hyperparameters—tree depth and the number of features per split—on Random Forest performance across five classification datasets of varying complexity, including Iris, Breast Cancer, and Fashion MNIST. Four experiments were conducted to investigate the effects of these parameters individually and in combination. Results revealed that optimal tree depth depends on dataset complexity, with shallow trees (depths 3-5) performing well on simple datasets and deeper trees (depths 10-20) required for complex ones. The number of features per split had a significant impact on complex datasets, striking a balance between underfitting and overfitting. Additionally, the interaction between tree depth and the number of trees in the forest showed diminishing performance returns beyond 100 trees. This study highlights the importance of carefully tuning hyperparameters to balance model complexity and computational efficiency. A formal report details the methodology, experiments, and findings.",
+      "This project explored the impact of key hyperparameters on Random Forest performance across five classification datasets of varying complexity, including Iris, Breast Cancer, and Fashion MNIST. Four experiments were conducted to investigate the effects of these parameters individually and in combination. Results revealed that optimal tree depth depends on dataset complexity, with shallow trees (depths 3-5) performing well on simple datasets and deeper trees (depths 10-20) required for complex ones. The number of features per split had a significant impact on complex datasets, striking a balance between underfitting and overfitting. Additionally, the interaction between tree depth and the number of trees in the forest showed diminishing performance returns beyond 100 trees. This study highlights the importance of carefully tuning hyperparameters to balance model complexity and computational efficiency. A formal report details the methodology, experiments, and findings.",
     image: "/images/MLAss3.png",
-    technologies: [
-      "Random Forests",
-      "Hyperparameter Tuning",
-      "Scikit-learn",
-      "Python",
-      "Data Visualization",
-      "Classification",
-      "Model Complexity",
-      "Ensemble Methods",
-      "Cross-validation",
-      "Performance Analysis",
-    ],
+    technologies: ["Random Forests", "Hyperparameter Tuning", "Scikit-learn", "Python", "Data Visualization"],
     category: "datascience",
-    githublink: "https://github.com/ArloHS/Does-Size-Matter-Hyperparameter-Tuning-in-Random-Forests",
-  },
-  {
-  id: "wine-quality-analysis",
-  title: "Red Wine Quality Classification: A Case Study in Applied Data Science",
-  description:
-    "This project was part of a professional data science case study for a company, where I analyzed and modeled red wine quality using physicochemical data. The dataset contained 1,599 samples with 11 features representing chemical properties such as acidity, chlorides, and alcohol content. I began with a thorough preprocessing pipeline — removing 240 duplicate samples (15% of the data), handling skewed distributions via log transformation, and applying a robust scaler to limit the influence of outliers. Correlation analysis confirmed moderate intercorrelation but no severe multicollinearity, making the data suitable for tree-based models. The target variable was reframed from a multiclass scale (0–10) into a binary classification problem: wines rated ≥7 were labeled 'good'. I implemented and tuned Random Forest and XGBoost classifiers using stratified 5-fold cross-validation and grid search optimization, with class weighting to counter imbalance. Both models performed strongly, achieving high accuracy and balanced precision-recall trade-offs. Visual analyses — including confusion matrices, ROC curves, and feature importance plots — demonstrated model interpretability and reliability. This project showcased my ability to apply end-to-end machine learning workflows to a realistic business context, communicate results effectively, and reflect on model improvements such as alternative thresholds, class weighting, and SMOTE for future enhancement.",
-  image: "/images/RedWine.jpg",
-  technologies: [
-    "Python",
-    "Scikit-learn",
-    "XGBoost",
-    "Random Forest",
-    "Pandas",
-    "EDA",
-    "Feature Selection",
-    "Cross Validation",
-    "Grid Search",
-    "Data Visualization"
-  ],
-  category: "datascience",
-  githublink: "https://github.com/ArloHS/Wine-Quality-Analysis-w-Presentation",
   },
   {
     id: "customer-purchase-prediction",
@@ -303,20 +342,28 @@ const _legacyProjectsRemoved = [
     description:
       "This project developed a robust classification pipeline to predict whether a customer would make a purchase on an e-commerce platform based on various behavioral and advertising features. Data preprocessing included creating dummy variables, removing multicollinear and dependent variables, scaling features, and refining predictors to enhance model performance. The classification models employed included K-Nearest Neighbors (KNN), Random Forest, and Extreme Gradient Boosting (XGBoost), with each model optimized using metrics such as AUC-ROC, precision, recall, and F1-score. Key insights were derived through model refinement, such as determining the optimal hyperparameters for each model: k=172 for KNN, max depth of 10 for Random Forest, and tuned estimators for XGBoost. The final models achieved significant accuracy and predictive power, with the refined pipeline highlighting the critical impact of advertisements and customer features like subscription status and platform usage. This project underscores the value of data-driven approaches in optimizing e-commerce strategies, supported by thorough visualization, model evaluation, and actionable insights.",
     image: "/images/DS241.png",
+    technologies: ["KNN", "Random Forest", "XGBoost", "Feature Engineering", "E-commerce Analytics"],
+    category: "datascience",
+  },
+  {
+    id: "wine-quality-analysis",
+    title: "Red Wine Quality Classification: A Case Study in Applied Data Science",
+    description:
+      "I conducted a data-driven case study for a company, exploring the physicochemical properties influencing red wine quality. The project involved end-to-end data analysis from preprocessing and exploratory data analysis (EDA) to transformation, modeling, and evaluation. I identified and addressed duplicate records, handled skewness through log transformations, and scaled features using a robust scaler to mitigate the impact of outliers. Using Random Forest and XGBoost classifiers, I built interpretable and high-performing models to predict wine quality as a binary classification task (good vs bad). Feature selection combined SelectKBest with model-based importance measures to reduce noise and improve generalization. Through cross-validation and grid search hyperparameter tuning, I optimized the models for balanced performance on imbalanced data. The final analysis achieved strong precision and recall, supported by visual diagnostics such as confusion matrices and ROC curves. This project reflects my ability to structure, analyze, and communicate applied data science solutions in a real-world context.",
+    image: "/images/RedWine.jpg",
     technologies: [
-      "KNN",
+      "Python",
+      "Scikit-learn",
+      "Pandas",
+      "Matplotlib",
       "Random Forest",
       "XGBoost",
       "Feature Engineering",
-      "E-commerce Analytics",
-      "Classification",
-      "Hyperparameter Tuning",
-      "Model Evaluation",
-      "Data Preprocessing",
-      "Business Intelligence",
+      "EDA",
+      "GridSearchCV",
+      "Binary Classification",
     ],
     category: "datascience",
-    githublink: "https://github.com/ArloHS/Prediction_Model_Customer_Sales",
   },
   {
     id: "covid-vaccine-analysis",
@@ -337,7 +384,6 @@ const _legacyProjectsRemoved = [
       "Policy Analysis",
     ],
     category: "datascience",
-    githublink: "https://github.com/ArloHS/R_Analysis_Covid19",
   },
 
   // Computer Science Projects
@@ -362,7 +408,6 @@ const _legacyProjectsRemoved = [
       "LaTeX",
     ],
     category: "computerscience",
-    githublink: "https://github.com/ArloHS/Advanced_Algorithms_-_Sorting",
   },
   {
     id: "competitive-coding-jam-1",
@@ -383,7 +428,6 @@ const _legacyProjectsRemoved = [
       "Time Complexity Analysis",
     ],
     category: "computerscience",
-    githublink: "https://github.com/ArloHS/Code_Jam_1",
   },
   {
     id: "competitive-coding-jam-2",
@@ -404,7 +448,6 @@ const _legacyProjectsRemoved = [
       "Performance Analysis",
     ],
     category: "computerscience",
-    githublink: "https://github.com/ArloHS/Code_Jam_2",
   },
   {
     id: "lossless-compression-tool",
@@ -426,13 +469,12 @@ const _legacyProjectsRemoved = [
       "Benchmarking",
     ],
     category: "computerscience",
-    githublink: "https://github.com/ArloHS/BWT_Loseless_Compression_Tool_C",
   },
   {
     id: "portfolio-website",
     title: "Professional Portfolio Website with Advanced Web Technologies",
     description:
-      "Developed a comprehensive personal portfolio website using Next.js 15 with App Router architecture, showcasing advanced full-stack web development capabilities and modern design principles. The application features a fully responsive design system built with Tailwind CSS and shadcn/ui components, implementing sophisticated theming with seamless dark/light mode transitions and custom CSS variables for consistent branding. The site employs TypeScript throughout for enhanced type safety and developer experience, with comprehensive error handling and validation. Key technical features include dynamic project categorization with interactive filtering, real-time course progress tracking with expandable sections, and optimized image handling with fallback mechanisms. The website implements advanced SEO optimization techniques including meta tag management, structured data, and performance optimization achieving excellent Core Web Vitals scores. Accessibility compliance follows WCAG guidelines with semantic HTML, proper ARIA attributes, and keyboard navigation support. The architecture demonstrates modern React patterns including server and client components, custom hooks for state management, and efficient data fetching strategies. Hosted on Microsoft Azure with automated CI/CD deployment pipelines, the site features comprehensive project showcases, academic achievement tracking, and professional experience documentation. The codebase emphasizes maintainability with modular component architecture, consistent naming conventions, and comprehensive documentation, serving as both a professional showcase and a demonstration of contemporary web development best practices.",
+      "Developed a comprehensive personal portfolio website using Next.js 15 with App Router architecture, showcasing advanced full-stack web development capabilities and modern design principles. The application features a fully responsive design system built with Tailwind CSS and shadcn/ui components, implementing sophisticated theming with seamless dark/light mode transitions and custom CSS variables for consistent branding. The site employs TypeScript throughout for enhanced type safety and developer experience, with comprehensive error handling and validation. Key technical features include dynamic project categorization with interactive filtering, real-time course progress tracking with expandable sections, and optimized image handling with fallback mechanisms. The website implements advanced SEO optimization techniques including meta tag management, structured data, and performance optimization achieving excellent Core Web Vitals scores. Accessibility compliance follows WCAG guidelines with semantic HTML, proper ARIA attributes, and keyboard navigation support.",
     image: "/images/portfolio-proj.jpg",
     technologies: [
       "Next.js 15",
@@ -450,7 +492,6 @@ const _legacyProjectsRemoved = [
       "CI/CD",
     ],
     category: "computerscience",
-    githublink: "https://github.com/ArloHS/portfolio-website",
   },
   {
     id: "regex-engine-haskell",
@@ -470,7 +511,6 @@ const _legacyProjectsRemoved = [
       "Theoretical Computer Science",
     ],
     category: "computerscience",
-    githublink: "https://github.com/ArloHS/Regex_Engine",
   },
   {
     id: "enhanced-regex-engine",
@@ -491,7 +531,6 @@ const _legacyProjectsRemoved = [
       "Performance Optimization",
     ],
     category: "computerscience",
-    githublink: "https://github.com/ArloHS/Enhanced_Regex_Engine",
   },
   {
     id: "github-api-clone",
@@ -512,13 +551,12 @@ const _legacyProjectsRemoved = [
       "API Design",
     ],
     category: "computerscience",
-    githublink: "https://github.com/ArloHS/Github_Scraper_API",
   },
   {
     id: "intersection-nfa-analysis",
-    title: "Exploring ∩-NFAs: A Randomized Approach to Automata Analysis",
+    title: "Exploring Intersection-NFAs: A Randomized Approach to Automata Analysis",
     description:
-      "Developed a Python-based system to generate and analyze ∩-NFAs (nondeterministic finite automata with intersection operations) and their transformation to DFAs (deterministic finite automata). The system uses pseudo-random bitstreams for generating initial states, final states, and transition matrices, ensuring unbiased and diverse automata generation. Parameters such as the number of states, alphabet size, and automata count can be user-defined or randomly assigned within a valid range. Key features include statistical analysis of automata behavior and identifying patterns in transition probabilities and acceptance conditions. Findings revealed predictable distributions in transition data, supporting the practical use of ∩-NFAs in theoretical and computational models. This project provides insights into automata design, randomness in computational models, and comparative performance of ∩-NFAs versus traditional NFAs.",
+      "Developed a Python-based system to generate and analyze intersection-NFAs (nondeterministic finite automata with intersection operations) and their transformation to DFAs (deterministic finite automata). The system uses pseudo-random bitstreams for generating initial states, final states, and transition matrices, ensuring unbiased and diverse automata generation. Parameters such as the number of states, alphabet size, and automata count can be user-defined or randomly assigned within a valid range. Key features include statistical analysis of automata behavior and identifying patterns in transition probabilities and acceptance conditions. Findings revealed predictable distributions in transition data, supporting the practical use of intersection-NFAs in theoretical and computational models. This project provides insights into automata design, randomness in computational models, and comparative performance of intersection-NFAs versus traditional NFAs.",
     image: "/images/CS345.png",
     technologies: [
       "Python",
@@ -532,7 +570,6 @@ const _legacyProjectsRemoved = [
       "State Machines",
     ],
     category: "computerscience",
-    githublink: "https://github.com/ArloHS/NFA_vs_DFA",
   },
   {
     id: "othello-game-engine",
@@ -554,7 +591,6 @@ const _legacyProjectsRemoved = [
       "Performance Optimization",
     ],
     category: "computerscience",
-    githublink: "https://github.com/ArloHS/Othello_Game_Engine",
   },
   {
     id: "huffman-compression",
@@ -576,7 +612,6 @@ const _legacyProjectsRemoved = [
       "Algorithmic Optimization",
     ],
     category: "computerscience",
-    githublink: "https://github.com/ArloHS/Huffman_Compression_Assembly",
   },
   {
     id: "genomic-sequence-analysis",
@@ -598,7 +633,6 @@ const _legacyProjectsRemoved = [
       "String Processing",
     ],
     category: "computerscience",
-    githublink: "https://github.com/ArloHS/Genome_Repetition",
   },
   {
     id: "flappy-bird-clone",
@@ -619,13 +653,12 @@ const _legacyProjectsRemoved = [
       "Object-Oriented Programming",
     ],
     category: "computerscience",
-    githublink: "https://github.com/ArloHS/Flappy_Bird",
   },
   {
     id: "space-attack-game",
     title: "Space Attack: A Retro Space Invaders Game",
     description:
-      "Developed a Java-based retro-style Space Invaders game, 'Space Attack,' featuring dynamic difficulty progression, power-ups, and a high-score database. The game employs a GameChange algorithm to increase challenge by adjusting alien waves' speed, bullet velocity, and grid size (up to 7 rows and 10 columns) based on the wave count, ensuring engaging gameplay. Collision detection and alien shooting algorithms use random number generation for alien attacks and precise coordinate checks for bullet-player and bullet-alien interactions, managing lives and scores. Advanced features include power-ups (e.g., ClearWave, Speed, Immunity) activated every 30 seconds via the 'P' key, enhancing gameplay with temporary or permanent boosts. Background music (retro tracks like 'Danger Zone') and toggleable audio add thematic immersion. A database supports sorting high scores by score, name, or date, with robust input validation for player names (1-15 characters). ArrayLists handle dynamic alien spawning, and a timer tracks score and time. Testing confirmed reliable handling of normal, severe, and extreme data inputs, ensuring stability. The game delivers a polished, challenging experience with retro aesthetics and modern interactivity.",
+      "Developed a Java-based retro-style Space Invaders game, 'Space Attack,' featuring dynamic difficulty progression, power-ups, and a high-score database. The game employs a GameChange algorithm to increase challenge by adjusting alien waves' speed, bullet velocity, and grid size (up to 7 rows and 10 columns) based on the wave count, ensuring engaging gameplay. Collision detection and alien shooting algorithms use random number generation for alien attacks and precise coordinate checks for bullet-player and bullet-alien interactions, managing lives and scores. Advanced features include power-ups (e.g., ClearWave, Speed, Immunity) activated every 30 seconds via the 'P' key, enhancing gameplay with temporary or permanent boosts. Background music (retro tracks like 'Danger Zone') and toggleable audio add thematic immersion.",
     image: "/images/Space_Invaders.png",
     technologies: [
       "Java",
@@ -642,10 +675,7 @@ const _legacyProjectsRemoved = [
       "Retro Game Design",
     ],
     category: "computerscience",
-    githublink: "https://github.com/ArloHS/Space_Attack",
   },
-
-  // Basic Computer Science Projects (added at the end)
   {
     id: "strategic-board-game",
     title: "Quarto Board Game with GUI and Power-ups",
@@ -654,7 +684,6 @@ const _legacyProjectsRemoved = [
     image: "/images/CS113.png",
     technologies: ["Java", "Swing", "StdDraw", "Game Development", "Object-Oriented Programming", "GUI Design"],
     category: "computerscience",
-    githublink: "https://github.com/ArloHS/Quarto_Board_Game",
   },
   {
     id: "dictionary-implementations",
@@ -664,102 +693,5 @@ const _legacyProjectsRemoved = [
     image: "/images/CS144.jpg",
     technologies: ["Java", "Data Structures", "Trie", "Arrays", "File I/O", "Interface Design", "Algorithms"],
     category: "computerscience",
-    githublink: "https://github.com/ArloHS/SpellCheckerDictionary",
   },
 ]
-
-export default async function ProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params
-  const project = projects.find((p) => p.id === id)
-
-  if (!project) {
-    notFound()
-  }
-
-  // Find related projects (same category, excluding current project)
-  const relatedProjects = projects.filter((p) => p.category === project.category && p.id !== project.id).slice(0, 3)
-
-  return (
-    <div className="container mx-auto px-4 py-12">
-      <div className="mb-8">
-        <Link href="/projects">
-          <Button variant="outline" size="sm">
-            <ArrowLeft className="mr-2 h-4 w-4" /> Back to Projects
-          </Button>
-        </Link>
-      </div>
-
-      <div className="max-w-5xl mx-auto">
-        <h1 className="text-3xl md:text-4xl font-bold mb-6 text-center">{project.title}</h1>
-        {project.githublink && (
-          <div className="mb-6 flex justify-center"> {/* Added flex and justify-center */}
-            <Button asChild variant="outline">
-              <a href={project.githublink} target="_blank" rel="noopener noreferrer">
-                View on GitHub
-              </a>
-            </Button>
-          </div>
-        )}
-        <div className="mb-8 relative h-[300px] md:h-[400px] w-full rounded-lg overflow-hidden">
-          <ProjectImageFallback
-            src={project.image || "/placeholder.svg"}
-            alt={project.title}
-            fill
-            className="object-cover"
-          />
-        </div>
-
-        {project.technologies && (
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold mb-3">Technologies Used</h2>
-            <div className="flex flex-wrap gap-2">
-              {project.technologies.map((tech, index) => (
-                <Badge key={index} variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-sm">
-                  {tech}
-                </Badge>
-              ))}
-            </div>
-          </div>
-        )}
-
-        <Card className="mb-12">
-          <CardContent className="p-6 md:p-8">
-            <h2 className="text-xl font-semibold mb-4">Project Overview</h2>
-            <div className="prose prose-slate dark:prose-invert max-w-none">
-              {project.description.split("\n").map((paragraph, idx) => (
-                <p key={idx} className="mb-4 text-slate-700 dark:text-slate-300">
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {relatedProjects.length > 0 && (
-          <div>
-            <h2 className="text-2xl font-bold mb-6">Related Projects</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {relatedProjects.map((relatedProject) => (
-                <Link href={`/projects/${relatedProject.id}`} key={relatedProject.id} className="block">
-                  <Card className="h-full transition-all hover:shadow-md hover:-translate-y-1">
-                    <div className="h-40 relative">
-                      <ProjectImageFallback
-                        src={relatedProject.image || "/placeholder.svg"}
-                        alt={relatedProject.title}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <CardContent className="p-4">
-                      <h3 className="font-semibold line-clamp-2">{relatedProject.title}</h3>
-                    </CardContent>
-                  </Card>
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  )
-}
