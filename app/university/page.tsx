@@ -254,13 +254,8 @@ const bachelorData: DegreeData = {
     {
       year: "4th Year (Honours)",
       status: "completed",
-      totalCourses: 7,
+      totalCourses: 6,
       courses: [
-        {
-          title: "Honours Project: Data Science Research Assignment 441",
-          description: 'Developed an autonomous self-healing machine learning pipeline for retail time series data using Dunnhumby\'s "The Complete Journey" dataset. Employs ensemble models (Random Forest, XGBoost, LSTM) with anomaly detection, explainable AI (SHAP, LIME), and autonomous remediation.',
-          categories: ["research", "ml", "ds"],
-        },
         {
           title: "Introduction to Statistical Learning 441",
           description: "Explores statistical learning theory, blending traditional methods like regression with modern techniques such as boosted trees, neural networks, recommender systems, and support vector machines. Emphasizes both theoretical foundations and practical applications.",
@@ -290,6 +285,18 @@ const bachelorData: DegreeData = {
           title: "Machine Learning and AI 472",
           description: "Introduces Cognitive Robotics and intelligent autonomous agents. Covers logic-based agents, First-Order Logic, Prolog, automated planning, Bayesian networks, Markov Decision Processes, and Reinforcement Learning algorithms.",
           categories: ["ml", "ds", "cs"],
+        },
+      ],
+    },
+    {
+      year: "Honours Research",
+      status: "completed",
+      totalCourses: 1,
+      courses: [
+        {
+          title: "Data Science Research Assignment 441",
+          description: 'Developed an autonomous self-healing machine learning pipeline for retail time series data using Dunnhumby\'s "The Complete Journey" dataset. Employs ensemble models (Random Forest, XGBoost, LSTM) with anomaly detection, explainable AI (SHAP, LIME), and autonomous remediation. The project demonstrates advanced skills in MLOps, model monitoring, and automated pipeline maintenance.',
+          categories: ["research", "ml", "ds"],
         },
       ],
     },
@@ -457,7 +464,7 @@ export default function UniversityPage() {
       </div>
 
       {/* Master's Degree Section */}
-      <div ref={masterRef} className="mb-16">
+      <div ref={masterRef} className="mb-16 scroll-mt-20">
         <DegreeSection
           degree={mastersData}
           isActive={activeDegree === "masters"}
@@ -485,7 +492,7 @@ export default function UniversityPage() {
       </div>
 
       {/* Bachelor's Degree Section */}
-      <div ref={bachelorRef}>
+      <div ref={bachelorRef} className="scroll-mt-20">
         <DegreeSection
           degree={bachelorData}
           isActive={activeDegree === "bachelors"}
