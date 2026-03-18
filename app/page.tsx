@@ -479,7 +479,7 @@ function WorkExperienceSection() {
           })}
         </div>
 
-        <div className="text-center mt-10">
+        <div className="text-center mt-8">
           <Link href="/work">
             <Button size="lg" className="bg-teal-600 hover:bg-teal-700">
               View All Work Experience <ArrowRight className="ml-2 h-4 w-4" />
