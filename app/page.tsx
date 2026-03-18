@@ -70,9 +70,19 @@ export default function Home() {
           <div className="max-w-4xl mx-auto space-y-6">
             <QualificationCard
               icon={<GraduationCap className="h-8 w-8 text-teal-600" />}
+              title="Master of Engineering (MEng)"
+              institution="Stellenbosch University"
+              period="February 2025 - December 2026"
+              details="Focus Area: Data Science"
+              description="Advanced postgraduate programme in data science covering machine learning, big data technologies, optimisation, and a 60-credit research assignment."
+              current
+            />
+
+            <QualificationCard
+              icon={<Award className="h-8 w-8 text-teal-600" />}
               title="Bachelor of Data Science (BDatSci)"
               institution="Stellenbosch University"
-              period="February 2021 - December 2025"
+              period="February 2021 - December 2024"
               details="Focal Area: Computer Science"
               description="Comprehensive program covering mathematical foundations, statistical modeling, machine learning, and computer science principles."
             />
@@ -124,9 +134,9 @@ export default function Home() {
               <Card className="h-full transition-all hover:shadow-lg hover:-translate-y-1">
                 <CardContent className="p-6">
                   <Database className="h-12 w-12 mb-4 text-teal-600" />
-                  <h3 className="text-xl font-bold mb-2">My Degree & Courses</h3>
+                  <h3 className="text-xl font-bold mb-2">My Degrees & Courses</h3>
                   <p className="text-slate-600 dark:text-slate-400">
-                    View the comprehensive range of courses I've taken as part of my BDatSci degree.
+                    View my Bachelor's and Master's degrees with all courses and modules.
                   </p>
                 </CardContent>
               </Card>
@@ -341,6 +351,7 @@ function QualificationCard({
   period,
   details,
   description,
+  current,
 }: {
   icon: React.ReactNode
   title: string
@@ -348,14 +359,20 @@ function QualificationCard({
   period: string
   details: string
   description: string
+  current?: boolean
 }) {
   return (
-    <Card className="transition-all hover:shadow-md">
+    <Card className={`transition-all hover:shadow-md ${current ? "border-l-4 border-l-teal-600" : ""}`}>
       <CardContent className="p-6">
         <div className="flex items-start space-x-4">
           <div className="flex-shrink-0">{icon}</div>
           <div className="flex-1">
-            <h3 className="text-xl font-bold mb-1">{title}</h3>
+            <div className="flex items-center gap-2 mb-1">
+              <h3 className="text-xl font-bold">{title}</h3>
+              {current && (
+                <Badge className="bg-blue-500 text-white text-xs">Current</Badge>
+              )}
+            </div>
             <p className="text-lg font-semibold text-teal-600 dark:text-teal-400 mb-1">{institution}</p>
             <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">{period}</p>
             <p className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{details}</p>

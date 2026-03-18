@@ -170,10 +170,34 @@ export default function AboutPage() {
                   <div className="flex items-start space-x-3 mb-3">
                     <GraduationCap className="h-6 w-6 text-teal-600 mt-1" />
                     <div>
+                      <div className="flex items-center gap-2">
+                        <h3 className="text-xl font-semibold">Master of Engineering (MEng)</h3>
+                        <Badge className="bg-blue-500 text-white text-xs">Current</Badge>
+                      </div>
+                      <p className="text-teal-600 dark:text-teal-400 font-medium">Stellenbosch University</p>
+                      <p className="text-sm text-slate-500 dark:text-slate-400">
+                        February 2025 - December 2026
+                      </p>
+                      <p className="text-sm font-medium text-slate-700 dark:text-slate-300 mt-1">
+                        Focus Area: Data Science
+                      </p>
+                    </div>
+                  </div>
+                  <p className="text-slate-600 dark:text-slate-400">
+                    Advanced postgraduate programme consisting of eight 15-credit modules, a 60-credit research assignment, 
+                    and professional development. Covers applied machine learning, big data technologies, optimisation, 
+                    deep learning, and data analytics.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-teal-600 pl-6">
+                  <div className="flex items-start space-x-3 mb-3">
+                    <Award className="h-6 w-6 text-teal-600 mt-1" />
+                    <div>
                       <h3 className="text-xl font-semibold">Bachelor of Data Science (BDatSci)</h3>
                       <p className="text-teal-600 dark:text-teal-400 font-medium">Stellenbosch University</p>
                       <p className="text-sm text-slate-500 dark:text-slate-400">
-                        February 2021 - December 2025
+                        February 2021 - December 2024
                       </p>
                       <p className="text-sm font-medium text-slate-700 dark:text-slate-300 mt-1">
                         Focal Area: Computer Science
@@ -182,7 +206,7 @@ export default function AboutPage() {
                   </div>
                   <p className="text-slate-600 dark:text-slate-400">
                     Comprehensive program covering mathematical foundations, statistical modeling, machine learning, and
-                    computer science principles. Currently excelling in advanced courses including machine learning,
+                    computer science principles. Completed with excellence in advanced courses including machine learning,
                     functional programming, and data science.
                   </p>
                 </div>

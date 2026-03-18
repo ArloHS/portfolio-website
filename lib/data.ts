@@ -123,14 +123,35 @@ export const workExperiences: WorkExperience[] = [
       "Cloud Computing",
       "Statistical Modeling",
     ],
-    projectIds: ["collections-prioritization-model"],
+    projectIds: ["model-health-dashboard", "collections-prioritization-model", "organogram", "scorecard-builder"],
   },
 ]
 
 // ---- Project Data ----
 
 export const projects: Project[] = [
-  // Work Projects
+  // Work Projects - Unifi Africa
+  {
+    id: "model-health-dashboard",
+    title: "Model Health Dashboard Owner",
+    description:
+      "Designed and implemented a comprehensive model health monitoring dashboard to track the performance and stability of production machine learning models at Unifi Africa. The dashboard provides real-time visibility into key metrics including model accuracy, precision, recall, AUC-ROC trends, feature drift detection, and prediction distribution shifts. Built with interactive visualizations that enable data scientists and business stakeholders to quickly identify model degradation, data quality issues, and concept drift. The system includes automated alerting when performance metrics fall below defined thresholds, enabling proactive model retraining before business impact occurs. As the dashboard owner, I defined KPIs, established monitoring best practices, and ensured the platform supports multiple models across different business domains including collections, credit risk, and customer segmentation.",
+    image: "/images/model-health-dashboard.jpg",
+    technologies: [
+      "Python",
+      "SQL",
+      "Data Visualization",
+      "Model Monitoring",
+      "Drift Detection",
+      "Statistical Testing",
+      "Dashboard Development",
+      "MLOps",
+      "Business Intelligence",
+    ],
+    category: "work",
+    additionalCategories: ["datascience", "mlops"],
+    workId: "unifi-africa",
+  },
   {
     id: "collections-prioritization-model",
     title: "Collections Prioritization Model",
@@ -148,6 +169,47 @@ export const projects: Project[] = [
       "Threshold Optimization",
       "Business Analytics",
       "Data Pipeline",
+    ],
+    category: "work",
+    additionalCategories: ["datascience"],
+    workId: "unifi-africa",
+  },
+  {
+    id: "organogram",
+    title: "Organogram",
+    description:
+      "Built an interactive organizational chart visualization tool for Unifi Africa that dynamically displays company hierarchy, team structures, and reporting relationships. The organogram integrates with HR data sources to provide real-time visibility into organizational structure across all African operations. Features include drill-down capabilities by department and region, search functionality to locate employees, and visual indicators for team sizes and spans of control. The tool supports strategic workforce planning by enabling leadership to visualize headcount distribution, identify reporting chain bottlenecks, and model reorganization scenarios. Implemented with clean data pipelines that automatically sync with employee records, ensuring the visualization always reflects current organizational reality.",
+    image: "/images/organogram.jpg",
+    technologies: [
+      "Python",
+      "SQL",
+      "Data Visualization",
+      "HR Analytics",
+      "Data Integration",
+      "Interactive Charts",
+      "Business Intelligence",
+    ],
+    category: "work",
+    additionalCategories: ["datascience"],
+    workId: "unifi-africa",
+  },
+  {
+    id: "scorecard-builder",
+    title: "Scorecard Builder",
+    description:
+      "Developed an automated credit scorecard development pipeline that streamlines the creation of interpretable credit risk models at Unifi Africa. The scorecard builder implements industry-standard techniques including Weight of Evidence (WoE) transformation, Information Value (IV) calculation for feature selection, and logistic regression for score generation. The tool automates binning optimization, handles missing values intelligently, and generates detailed documentation including characteristic analysis tables, score-to-odds mappings, and population stability indices. Built to ensure regulatory compliance and model interpretability, the scorecard builder enables rapid development of credit scorecards that can be easily explained to regulators and business stakeholders. The pipeline includes backtesting frameworks to validate scorecard performance on out-of-time samples and generates model cards for governance purposes.",
+    image: "/images/scorecard-builder.jpg",
+    technologies: [
+      "Python",
+      "Scikit-learn",
+      "Pandas",
+      "SQL",
+      "Credit Risk Modeling",
+      "Weight of Evidence",
+      "Logistic Regression",
+      "Feature Engineering",
+      "Model Documentation",
+      "Regulatory Compliance",
     ],
     category: "work",
     additionalCategories: ["datascience"],
