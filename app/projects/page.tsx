@@ -560,6 +560,43 @@ const projects: Project[] = [
     technologies: ["Java", "Data Structures", "Trie", "Arrays", "File I/O", "Interface Design", "Algorithms"],
     category: "computerscience",
   },
+  // Unifi Africa work projects. Categories overlap intentionally.
+  {
+    id: "model-health-dashboard",
+    title: "Model Health Dashboard Owner",
+    description: "Owned the development of a model health dashboard for monitoring production model performance, drift, data quality, and retraining signals across Unifi Africa's data science workflows.",
+    image: "/images/model-health-dashboard.jpg",
+    technologies: ["Python", "SQL", "MLOps", "Model Monitoring", "Data Visualization"],
+    category: "work",
+    additionalCategories: ["datascience", "mlops"],
+  },
+  {
+    id: "collections-prioritization-model",
+    title: "Collections Prioritization Model",
+    description: "Built a machine learning model that prioritizes delinquent accounts by expected repayment likelihood, helping collections teams focus effort where it can create the greatest recovery impact.",
+    image: "/images/collections-model.jpg",
+    technologies: ["Python", "XGBoost", "Scikit-learn", "Pandas", "SQL", "Feature Engineering"],
+    category: "work",
+    additionalCategories: ["datascience"],
+  },
+  {
+    id: "organogram",
+    title: "Organogram",
+    description: "Created an interactive organizational structure tool that presents teams, reporting lines, departments, and workforce relationships in a clear, searchable format.",
+    image: "/images/organogram.jpg",
+    technologies: ["Python", "SQL", "Data Visualization", "Data Integration", "HR Analytics"],
+    category: "work",
+    additionalCategories: ["datascience"],
+  },
+  {
+    id: "scorecard-builder",
+    title: "Scorecard Builder",
+    description: "Developed an automated credit scorecard builder using Weight of Evidence, Information Value, feature selection, and interpretable modelling workflows to support credit risk decisions.",
+    image: "/images/scorecard-builder.jpg",
+    technologies: ["Python", "Scikit-learn", "Pandas", "SQL", "Credit Risk", "Weight of Evidence"],
+    category: "work",
+    additionalCategories: ["datascience"],
+  },
 ]
 
 function belongsToCategory(project: Project, category: string) {

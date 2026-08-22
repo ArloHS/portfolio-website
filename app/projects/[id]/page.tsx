@@ -674,6 +674,39 @@ const projects: Project[] = [
     category: "computerscience",
     githublink: "https://github.com/ArloHS/SpellCheckerDictionary",
   },
+  // Unifi Africa work projects
+  {
+    id: "model-health-dashboard",
+    title: "Model Health Dashboard Owner",
+    description: "Owned a dashboard for monitoring production model performance, drift, data quality, and retraining signals across Unifi Africa's data science workflows.",
+    image: "/images/model-health-dashboard.jpg",
+    technologies: ["Python", "SQL", "MLOps", "Model Monitoring", "Data Visualization"],
+    category: "work",
+  },
+  {
+    id: "collections-prioritization-model",
+    title: "Collections Prioritization Model",
+    description: "Built a machine learning model that prioritizes delinquent accounts by expected repayment likelihood, helping collections teams focus effort where it can create the greatest recovery impact.",
+    image: "/images/collections-model.jpg",
+    technologies: ["Python", "XGBoost", "Scikit-learn", "Pandas", "SQL"],
+    category: "work",
+  },
+  {
+    id: "organogram",
+    title: "Organogram",
+    description: "Created an interactive organizational structure tool presenting teams, reporting lines, departments, and workforce relationships in a clear, searchable format.",
+    image: "/images/organogram.jpg",
+    technologies: ["Python", "SQL", "Data Visualization", "Data Integration"],
+    category: "work",
+  },
+  {
+    id: "scorecard-builder",
+    title: "Scorecard Builder",
+    description: "Developed an automated credit scorecard builder using Weight of Evidence, Information Value, feature selection, and interpretable modelling workflows to support credit risk decisions.",
+    image: "/images/scorecard-builder.jpg",
+    technologies: ["Python", "Scikit-learn", "Pandas", "SQL", "Credit Risk"],
+    category: "work",
+  },
 ]
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {
