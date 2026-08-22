@@ -1,9 +1,15 @@
 import type React from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight, Code, Database, LineChart, ChevronRight, GraduationCap, Award, BookOpen, BarChart3, Brain, Cloud, Cog, Server, Zap } from "lucide-react"
+import { ArrowRight, Code, Database, LineChart, ChevronRight, GraduationCap, Award, BookOpen, BarChart3, Brain, Cloud, Cog, Server, Zap, Calendar, Clock, MapPin, Briefcase } from "lucide-react"
+const workExperiences = [{ id: "unifi-africa", company: "Unifi Africa", logo: "/images/unifi-logo.jpg", role: "Data Scientist", startDate: "2025-01", endDate: null, location: "South Africa", companyDescription: "Unifi Africa is a fintech company providing personal credit solutions across Africa through technology and data-driven lending.", jobDescription: "I apply machine learning and statistical modeling to improve collections, credit risk, and customer outcomes.", technologies: ["Python", "SQL"] }]
+const getSortedWorkExperiences = () => workExperiences
+const formatDateRange = (start: string, end: string | null) => `${start} - ${end || "Present"}`
+const calculateDuration = (_start: string, _end: string | null) => "Current"
+const getWorkProjects = (_id: string) => [{ id: "model-health-dashboard" }, { id: "collections-prioritization-model" }, { id: "organogram" }, { id: "scorecard-builder" }]
 
 export default function Home() {
   return (
@@ -54,6 +60,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Work Experience Section */}
+      <WorkExperienceSection />
+
       {/* Qualifications Section */}
       <section className="py-16 bg-slate-50 dark:bg-slate-900">
         <div className="container mx-auto px-4">
@@ -65,9 +74,19 @@ export default function Home() {
           <div className="max-w-4xl mx-auto space-y-6">
             <QualificationCard
               icon={<GraduationCap className="h-8 w-8 text-teal-600" />}
+              title="Master of Engineering (MEng)"
+              institution="Stellenbosch University"
+              period="February 2025 - December 2026"
+              details="Focus Area: Data Science"
+              description="Advanced postgraduate programme in data science covering machine learning, big data technologies, optimisation, and a 60-credit research assignment."
+              current
+            />
+
+            <QualificationCard
+              icon={<Award className="h-8 w-8 text-teal-600" />}
               title="Bachelor of Data Science (BDatSci)"
               institution="Stellenbosch University"
-              period="February 2021 - December 2025"
+              period="February 2021 - December 2024"
               details="Focal Area: Computer Science"
               description="Comprehensive program covering mathematical foundations, statistical modeling, machine learning, and computer science principles."
             />
@@ -119,9 +138,9 @@ export default function Home() {
               <Card className="h-full transition-all hover:shadow-lg hover:-translate-y-1">
                 <CardContent className="p-6">
                   <Database className="h-12 w-12 mb-4 text-teal-600" />
-                  <h3 className="text-xl font-bold mb-2">My Degree & Courses</h3>
+                  <h3 className="text-xl font-bold mb-2">My Degrees & Courses</h3>
                   <p className="text-slate-600 dark:text-slate-400">
-                    View the comprehensive range of courses I've taken as part of my BDatSci degree.
+                    View my Bachelor's and Master's degrees with all courses and modules.
                   </p>
                 </CardContent>
               </Card>
@@ -336,6 +355,7 @@ function QualificationCard({
   period,
   details,
   description,
+  current,
 }: {
   icon: React.ReactNode
   title: string
@@ -343,14 +363,20 @@ function QualificationCard({
   period: string
   details: string
   description: string
+  current?: boolean
 }) {
   return (
-    <Card className="transition-all hover:shadow-md">
+    <Card className={`transition-all hover:shadow-md ${current ? "border-l-4 border-l-teal-600" : ""}`}>
       <CardContent className="p-6">
         <div className="flex items-start space-x-4">
           <div className="flex-shrink-0">{icon}</div>
           <div className="flex-1">
-            <h3 className="text-xl font-bold mb-1">{title}</h3>
+            <div className="flex items-center gap-2 mb-1">
+              <h3 className="text-xl font-bold">{title}</h3>
+              {current && (
+                <Badge className="bg-blue-500 text-white text-xs">Current</Badge>
+              )}
+            </div>
             <p className="text-lg font-semibold text-teal-600 dark:text-teal-400 mb-1">{institution}</p>
             <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">{period}</p>
             <p className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{details}</p>
@@ -390,6 +416,82 @@ function SkillCard({
         </ul>
       </CardContent>
     </Card>
+  )
+}
+
+function WorkExperienceSection() {
+  const workExperiences = getSortedWorkExperiences()
+
+  return (
+    <section className="py-16 bg-slate-50 dark:bg-slate-900">
+      <div className="container mx-auto px-4">
+        <h2 className="text-3xl font-bold text-center mb-2">Work Experience</h2>
+        <p className="text-center max-w-2xl mx-auto mb-12 text-slate-600 dark:text-slate-400">
+          Professional roles where I apply data science to solve real business problems.
+        </p>
+
+        <div className="max-w-4xl mx-auto space-y-6">
+          {workExperiences.map((work) => {
+            const projectCount = getWorkProjects(work.id).length
+            return (
+              <Link key={work.id} href={`/work/${work.id}`} className="block group">
+                <Card className="transition-all hover:shadow-lg hover:-translate-y-1 overflow-hidden border-l-4 border-l-teal-600">
+                  <CardContent className="p-6">
+                    <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+                      <div className="flex-shrink-0">
+                        <div className="w-16 h-16 relative rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 bg-white">
+                          <Image
+                            src={work.logo}
+                            alt={`${work.company} logo`}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-2">
+                          <div>
+                            <h3 className="text-xl font-bold group-hover:text-teal-600 transition-colors">{work.company}</h3>
+                            <p className="text-base font-semibold text-teal-600 dark:text-teal-400">{work.role}</p>
+                          </div>
+                          {!work.endDate && (
+                            <Badge className="bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200 self-start">
+                              Current
+                            </Badge>
+                          )}
+                        </div>
+                        <div className="flex flex-wrap gap-3 text-sm text-slate-500 dark:text-slate-400 mb-3">
+                          <span className="flex items-center"><Calendar className="h-3.5 w-3.5 mr-1" />{formatDateRange(work.startDate, work.endDate)}</span>
+                          <span className="flex items-center"><Clock className="h-3.5 w-3.5 mr-1" />{calculateDuration(work.startDate, work.endDate)}</span>
+                          <span className="flex items-center"><MapPin className="h-3.5 w-3.5 mr-1" />{work.location}</span>
+                          {projectCount > 0 && (
+                            <span className="flex items-center"><Briefcase className="h-3.5 w-3.5 mr-1" />{projectCount} project{projectCount !== 1 ? "s" : ""}</span>
+                          )}
+                        </div>
+                        <p className="text-slate-600 dark:text-slate-400 text-sm line-clamp-2">
+                          {work.companyDescription.split(".").slice(0, 2).join(".") + "."}
+                        </p>
+                      </div>
+                      <div className="hidden sm:flex items-center self-center">
+                        <ChevronRight className="h-5 w-5 text-slate-400 group-hover:text-teal-600 transition-colors" />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            )
+          })}
+        </div>
+
+        <div className="text-center mt-8">
+          <Link href="/work">
+            <Button size="lg" className="bg-teal-600 hover:bg-teal-700">
+              View All Work Experience <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </section>
   )
 }
 
