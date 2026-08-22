@@ -4,6 +4,10 @@ import { Briefcase, MapPin, Calendar, Clock, ChevronRight } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 const workData = [{
+  id: "artefact", company: "Artefact (prev AdvanceGuidance)", logo: "/images/artefact.png", role: "Senior Machine Learning Engineer", startDate: "2026-09", endDate: null, location: "South Africa",
+  companyDescription: "Artefact is a global data and AI consulting firm. Following its acquisition of Cape Town-based AdvanceGuidance, Artefact South Africa helps organisations turn data and artificial intelligence into scalable business solutions.",
+  technologies: ["Python", "SQL", "MLOps", "Machine Learning", "Generative AI", "Kubernetes", "CI/CD", "Azure Databricks", "Docker", "Model Deployment", "Model Monitoring"],
+}, {
   id: "unifi-africa", company: "Unifi Africa", logo: "/images/unifi-logo.jpg", role: "Data Scientist", startDate: "2025-01", endDate: null, location: "South Africa",
   companyDescription: "Unifi Africa is a fintech company providing personal credit solutions across Africa through technology and data-driven lending.",
   technologies: ["Python", "SQL", "Machine Learning", "Predictive Modeling", "XGBoost", "Scikit-learn"],
