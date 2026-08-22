@@ -5,10 +5,22 @@ import { ArrowLeft } from "lucide-react"
 import { ProjectImageFallback } from "@/components/project-image-fallback"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { projects, getWorkById } from "@/lib/data"
 
-// Legacy inline data replaced by shared data layer import above.
-const _legacyProjectsRemoved = [
+// Project type definition
+type Project = {
+  id: string
+  title: string
+  description: string
+  image: string
+  technologies?: string[]
+  category: "featured" | "mlops" | "datascience" | "computerscience"
+  additionalCategories?: ("mlops" | "datascience" | "computerscience")[]
+  githublink?: string
+}
+
+// Project data
+const projects: Project[] = [
+  // Featured Projects
   {
     id: "honours-project",
     title: "Self-Healing Machine Learning Pipeline with Anomaly Detection",
@@ -691,25 +703,15 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
       <div className="max-w-5xl mx-auto">
         <h1 className="text-3xl md:text-4xl font-bold mb-6 text-center">{project.title}</h1>
-        <div className="mb-6 flex justify-center gap-3 flex-wrap">
-          {project.githublink && (
+        {project.githublink && (
+          <div className="mb-6 flex justify-center"> {/* Added flex and justify-center */}
             <Button asChild variant="outline">
               <a href={project.githublink} target="_blank" rel="noopener noreferrer">
                 View on GitHub
               </a>
             </Button>
-          )}
-          {project.workId && (() => {
-            const work = getWorkById(project.workId)
-            return work ? (
-              <Button asChild variant="outline" className="border-teal-600 text-teal-600 hover:bg-teal-50 dark:hover:bg-teal-950">
-                <Link href={`/work/${work.id}`}>
-                  View at {work.company}
-                </Link>
-              </Button>
-            ) : null
-          })()}
-        </div>
+          </div>
+        )}
         <div className="mb-8 relative h-[300px] md:h-[400px] w-full rounded-lg overflow-hidden">
           <ProjectImageFallback
             src={project.image || "/placeholder.svg"}
