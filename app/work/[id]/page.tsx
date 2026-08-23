@@ -70,7 +70,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ id:
       <div className="max-w-5xl mx-auto">
         {/* Header Section */}
         <div className="mb-12">
-          <div className="flex flex-col md:flex-row items-start gap-6 mb-6">
+          <div className="flex flex-col items-center text-center gap-5 mb-6">
             {/* Company Logo */}
             <div className="flex-shrink-0">
               <div className="w-24 h-24 md:w-28 md:h-28 relative rounded-xl overflow-hidden border-2 border-slate-200 dark:border-slate-700 bg-white shadow-md">
@@ -84,8 +84,8 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ id:
             </div>
 
             {/* Header Info */}
-            <div className="flex-1">
-              <div className="flex items-center gap-3 mb-2">
+            <div className="flex-1 w-full flex flex-col items-center">
+              <div className="flex items-center justify-center gap-3 mb-2 flex-wrap">
                 <h1 className="text-3xl md:text-4xl font-bold">{work.company}</h1>
                 {!work.endDate && (
                   <Badge className="bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200">
@@ -97,7 +97,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ id:
                 {work.role}
               </p>
 
-              <div className="flex flex-wrap gap-4 text-sm text-slate-500 dark:text-slate-400">
+              <div className="flex flex-wrap justify-center gap-4 text-sm text-slate-500 dark:text-slate-400">
                 <div className="flex items-center">
                   <Calendar className="h-4 w-4 mr-1.5" />
                   <span>{formatDateRange(work.startDate, work.endDate)}</span>
@@ -115,7 +115,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ id:
           </div>
 
           {/* Technologies */}
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap justify-center gap-2 max-w-3xl mx-auto">
             {work.technologies.map((tech, index) => (
               <Badge key={index} variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-sm">
                 {tech}
@@ -132,9 +132,16 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ id:
               About {work.company}
             </h2>
             <div className="prose prose-slate dark:prose-invert max-w-none">
-              <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-                {work.companyDescription}
+              <p className="text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                {work.id === "unifi-africa"
+                  ? "Unifi is a technology-led lending business that provides accessible personal credit across African markets. Its operating model combines digital products, local country teams, credit governance, and data-driven decision-making to manage portfolios responsibly at scale."
+                  : work.companyDescription}
               </p>
+              {work.id === "unifi-africa" && (
+                <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
+                  Working across five country portfolios meant that the analytical work had to be both technically robust and operationally useful: models needed to perform in production, risk decisions needed clear governance, and insights needed to make sense in each local market.
+                </p>
+              )}
             </div>
           </CardContent>
         </Card>
@@ -147,9 +154,16 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ id:
               My Role: {work.role}
             </h2>
             <div className="prose prose-slate dark:prose-invert max-w-none">
-              <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-                {work.jobDescription}
+              <p className="text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                {work.id === "unifi-africa"
+                  ? "As a Data Scientist and Full Stack Data Specialist in Credit Risk, I worked across the full lifecycle of analytical products: understanding business questions, engineering features, developing models, productionising scoring pipelines, monitoring outputs, and communicating decisions to stakeholders."
+                  : work.jobDescription}
               </p>
+              {work.id === "unifi-africa" && (
+                <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
+                  My role combined hands-on modelling with data engineering and decision support. I built behavioural scorecards and collections prioritisation models, refactored the GCP feature store, maintained version-controlled model pipelines, and helped turn model outputs into practical limits and country-level actions.
+                </p>
+              )}
             </div>
           </CardContent>
         </Card>
