@@ -18,7 +18,22 @@ import { notFound } from "next/navigation"
 const workExperiences = [{ id: "artefact", company: "Artefact (prev AdvanceGuidance)", logo: "/images/artefact.png", role: "Senior Machine Learning Engineer", startDate: "2026-09", endDate: null, location: "South Africa", companyDescription: "Artefact is a global data and AI consulting firm. Following its acquisition of Cape Town-based AdvanceGuidance, Artefact South Africa helps organisations turn data and artificial intelligence into scalable business solutions.", jobDescription: "As a Senior Machine Learning Engineer, I build production-grade machine learning systems with strong software engineering foundations, including reliable data pipelines, model deployment, MLOps, CI/CD, monitoring, and observability.", technologies: ["Python", "SQL", "MLOps", "Machine Learning", "Generative AI", "Kubernetes", "CI/CD", "Azure Databricks", "Docker", "Model Deployment", "Model Monitoring"] }, { id: "unifi-africa", company: "Unifi Africa", logo: "/images/unifi-logo.jpg", role: "Data Scientist", startDate: "2025-01", endDate: null, location: "South Africa", companyDescription: "Unifi Africa is a fintech company providing personal credit solutions across Africa through technology and data-driven lending.", jobDescription: "I apply machine learning and statistical modeling to improve collections, credit risk, and customer outcomes.", technologies: ["Python", "SQL", "Machine Learning"] }]
 const getWorkById = (id: string) => workExperiences.find((work) => work.id === id)
 type WorkProject = { id: string; title: string; description: string; image: string; technologies: string[] }
-const getWorkProjects = (_id: string): WorkProject[] => []
+const getWorkProjects = (id: string): WorkProject[] => id === "unifi-africa" ? [
+  {
+    id: "unifi-kenya-behaviour-scorecard",
+    title: "Unifi Kenya Revised Behaviour Scorecard",
+    description: "Rebuilt and productionised the Kenya behavioural scorecard, improving recent-sample AUC from 0.62 to 0.67.",
+    image: "/images/unifi_kenya.png",
+    technologies: ["Python", "LightGBM", "RFE", "Bayesian Optimisation", "GCP"],
+  },
+  {
+    id: "unifi-uganda-behaviour-scorecard",
+    title: "Unifi Uganda Revised Behaviour Scorecard",
+    description: "Retrained and upgraded the Uganda behavioural scorecard, improving recent-sample AUC from 0.68 to 0.73.",
+    image: "/images/unifi_uganda.png",
+    technologies: ["Python", "LightGBM", "RFE", "Bayesian Optimisation", "GCP"],
+  },
+] : []
 const formatDateRange = (start: string, end: string | null) => `${start} - ${end || "Present"}`
 
 const unifiHighlights = [
