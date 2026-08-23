@@ -17,8 +17,29 @@ import Image from "next/image"
 import { notFound } from "next/navigation"
 const workExperiences = [{ id: "artefact", company: "Artefact (prev AdvanceGuidance)", logo: "/images/artefact.png", role: "Senior Machine Learning Engineer", startDate: "2026-09", endDate: null, location: "South Africa", companyDescription: "Artefact is a global data and AI consulting firm. Following its acquisition of Cape Town-based AdvanceGuidance, Artefact South Africa helps organisations turn data and artificial intelligence into scalable business solutions.", jobDescription: "As a Senior Machine Learning Engineer, I build production-grade machine learning systems with strong software engineering foundations, including reliable data pipelines, model deployment, MLOps, CI/CD, monitoring, and observability.", technologies: ["Python", "SQL", "MLOps", "Machine Learning", "Generative AI", "Kubernetes", "CI/CD", "Azure Databricks", "Docker", "Model Deployment", "Model Monitoring"] }, { id: "unifi-africa", company: "Unifi Africa", logo: "/images/unifi-logo.jpg", role: "Data Scientist", startDate: "2025-01", endDate: null, location: "South Africa", companyDescription: "Unifi Africa is a fintech company providing personal credit solutions across Africa through technology and data-driven lending.", jobDescription: "I apply machine learning and statistical modeling to improve collections, credit risk, and customer outcomes.", technologies: ["Python", "SQL", "Machine Learning"] }]
 const getWorkById = (id: string) => workExperiences.find((work) => work.id === id)
-const getWorkProjects = (_id: string) => [{ id: "model-health-dashboard", title: "Model Health Dashboard Owner", description: "Production model monitoring and health dashboard.", image: "/images/model-health-dashboard.jpg", technologies: ["Python", "MLOps"] }, { id: "collections-prioritization-model", title: "Collections Prioritization Model", description: "Machine learning model for collections prioritization.", image: "/images/collections-model.jpg", technologies: ["Python", "XGBoost"] }, { id: "organogram", title: "Organogram", description: "Interactive organizational chart visualization.", image: "/images/organogram.jpg", technologies: ["Python", "SQL"] }, { id: "scorecard-builder", title: "Scorecard Builder", description: "Automated credit scorecard development pipeline.", image: "/images/scorecard-builder.jpg", technologies: ["Python", "Scikit-learn"] }]
+const getWorkProjects = (_id: string) => []
 const formatDateRange = (start: string, end: string | null) => `${start} - ${end || "Present"}`
+
+const unifiHighlights = [
+  "Developed and productionised end-to-end credit risk scorecards, including behavioural scoring models that determine client risk categories and scores.",
+  "Developed and deployed collections prioritisation models across all five country portfolios, helping country teams focus calling activity on customers with the highest expected payment likelihood.",
+  "Architected and refactored the organisation's GCP feature store, improving naming standards, feature reuse, and consistency across country portfolios.",
+  "Established a centralised model repository with version-controlled pipelines integrated into the production scoring engine.",
+  "Contributed to the development and productionisation of post-scorecard limit proposals, connecting model outputs to practical credit decisions.",
+]
+
+const unifiLeadership = [
+  "Chair of the Tanzania Credit Committee, contributing to credit policy, risk decisions, and limit governance.",
+  "Chair of the Tanzania Employer Risk Committee, supporting employer-level risk assessment and lending decisions.",
+]
+
+const unifiOperatingRhythm = [
+  "Delivered Monday-morning data insights to the Zambia team, translating portfolio performance and risk signals into clear actions for the week ahead.",
+  "Managed incoming data and credit-risk queries from country teams, investigating issues and providing timely, evidence-based answers.",
+  "Worked across country portfolios to align analytical outputs with local operational context and business requirements.",
+]
+
+const unifiTools = ["Python", "SQL", "LightGBM", "BigQuery", "Dataform", "GCP", "Data Studio", "Bitbucket", "Feature Engineering", "Credit Risk Modelling", "Model Monitoring"]
 const calculateDuration = (_start: string, _end: string | null) => "Current"
 
 export function generateStaticParams() {
@@ -132,6 +153,62 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ id:
             </div>
           </CardContent>
         </Card>
+
+        {work.id === "unifi-africa" && (
+          <>
+            <Card className="mb-8 overflow-hidden border-t-4 border-t-teal-600">
+              <CardContent className="p-6 md:p-8">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+                  <div>
+                    <p className="text-sm font-semibold uppercase tracking-wider text-teal-600 dark:text-teal-400">Credit Risk · Data Science · Full Stack Data Specialist</p>
+                    <h2 className="text-2xl md:text-3xl font-bold mt-2">Turning portfolio data into credit decisions</h2>
+                  </div>
+                  <Badge variant="outline" className="self-start sm:self-center border-teal-600 text-teal-700 dark:text-teal-300">South Africa · 5 country portfolios</Badge>
+                </div>
+                <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
+                  At Unifi, my work sits at the intersection of credit risk, machine learning, data engineering, and production systems. I take models from exploration through governance and deployment, then stay close to the country teams using their outputs.
+                </p>
+              </CardContent>
+            </Card>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+              <Card>
+                <CardContent className="p-6 md:p-8">
+                  <h2 className="text-2xl font-bold mb-5">What I delivered</h2>
+                  <ul className="space-y-4">
+                    {unifiHighlights.map((item) => <li key={item} className="flex gap-3 text-slate-700 dark:text-slate-300 leading-relaxed"><span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-teal-600" />{item}</li>)}
+                  </ul>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-6 md:p-8">
+                  <h2 className="text-2xl font-bold mb-5">Leadership & governance</h2>
+                  <ul className="space-y-4">
+                    {unifiLeadership.map((item) => <li key={item} className="flex gap-3 text-slate-700 dark:text-slate-300 leading-relaxed"><span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-teal-600" />{item}</li>)}
+                  </ul>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-6">I presented scorecards and limit proposals to Credit Committees, supporting business sign-off and informed risk decisions.</p>
+                </CardContent>
+              </Card>
+            </div>
+
+            <Card className="mb-8">
+              <CardContent className="p-6 md:p-8">
+                <h2 className="text-2xl font-bold mb-5">Country-facing data practice</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                  {unifiOperatingRhythm.map((item, index) => <div key={item} className="rounded-lg bg-slate-50 dark:bg-slate-900 p-5"><p className="text-2xl font-bold text-teal-600 mb-2">0{index + 1}</p><p className="text-slate-700 dark:text-slate-300 leading-relaxed">{item}</p></div>)}
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="mb-8">
+              <CardContent className="p-6 md:p-8">
+                <h2 className="text-2xl font-bold mb-4">Technical toolkit</h2>
+                <p className="text-slate-600 dark:text-slate-400 mb-5">My day-to-day work combined modelling, cloud data platforms, production pipelines, and stakeholder communication.</p>
+                <div className="flex flex-wrap gap-2">{unifiTools.map((tool) => <Badge key={tool} variant="secondary" className="bg-slate-100 dark:bg-slate-800">{tool}</Badge>)}</div>
+              </CardContent>
+            </Card>
+          </>
+        )}
 
         {/* Projects Section */}
         <div className="mb-8">

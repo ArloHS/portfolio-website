@@ -9,8 +9,8 @@ const workData = [{
   technologies: ["Python", "SQL", "MLOps", "Machine Learning", "Generative AI", "Kubernetes", "CI/CD", "Azure Databricks", "Docker", "Model Deployment", "Model Monitoring"],
 }, {
   id: "unifi-africa", company: "Unifi Africa", logo: "/images/unifi-logo.jpg", role: "Data Scientist", startDate: "2025-01", endDate: null, location: "South Africa",
-  companyDescription: "Unifi Africa is a fintech company providing personal credit solutions across Africa through technology and data-driven lending.",
-  technologies: ["Python", "SQL", "Machine Learning", "Predictive Modeling", "XGBoost", "Scikit-learn"],
+  companyDescription: "Unifi Africa is a fintech lending business operating across five country portfolios, where data and credit risk modelling support responsible lending and collections decisions.",
+  technologies: ["Python", "SQL", "LightGBM", "BigQuery", "Dataform", "GCP", "Data Studio", "Bitbucket", "MLOps", "Credit Risk Modelling"],
 }]
 const formatDateRange = (start: string, end: string | null) => `${new Date(start + "-01").toLocaleDateString("en-US", { month: "short", year: "numeric" })} - ${end ? new Date(end + "-01").toLocaleDateString("en-US", { month: "short", year: "numeric" }) : "Present"}`
 const calculateDuration = (start: string, end: string | null) => `${Math.max(1, Math.round(((end ? new Date(end + "-01") : new Date()).getTime() - new Date(start + "-01").getTime()) / (1000 * 60 * 60 * 24 * 30)))} mos`
