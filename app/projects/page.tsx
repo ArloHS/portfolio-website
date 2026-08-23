@@ -579,7 +579,25 @@ const projects: Project[] = [
     category: "work",
     additionalCategories: ["datascience"],
   },
-]
+  {
+    id: "collections-prioritisation-models",
+    title: "Collections Prioritisation Models",
+    description: "Developed and deployed 20+ collections prioritisation models across all five countries, covering approximately five million rows and producing descending, recency-aware call queues.",
+    image: "/images/unifi_collections.jpg",
+    technologies: ["Python", "Data Science", "Data Modelling", "LightGBM", "GCP"],
+    category: "work",
+    additionalCategories: ["datascience"],
+  },
+  {
+    id: "feature-store-scoring-engine-refactor",
+    title: "Feature Store & Scoring Engine Refactor",
+    description: "Rebuilt the GCP feature store and centralised model repository, enabling reusable cross-country features, version-controlled assets, and a unified production scoring interface.",
+    image: "/images/unifi_modelgarden.jpg",
+    technologies: ["ML Engineering", "Dataform", "BigQuery", "Bitbucket", "GCP"],
+    category: "work",
+    additionalCategories: ["mlops"],
+  },
+  ]
 
 function belongsToCategory(project: Project, category: string) {
   return project.category === category || project.additionalCategories?.includes(category)

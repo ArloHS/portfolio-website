@@ -33,6 +33,20 @@ const getWorkProjects = (id: string): WorkProject[] => id === "unifi-africa" ? [
     image: "/images/unifi_uganda.png",
     technologies: ["Python", "LightGBM", "RFE", "Bayesian Optimisation", "GCP"],
   },
+  {
+    id: "collections-prioritisation-models",
+    title: "Collections Prioritisation Models",
+    description: "Developed and deployed more than 20 collections prioritisation models across all five country portfolios, covering approximately five million rows of data. Each model ranks debtors by expected qualifying-payment likelihood and produces a descending call queue benchmarked across recency segments.",
+    image: "/images/unifi_collections.jpg",
+    technologies: ["Python", "Data Science", "Data Modelling", "LightGBM", "GCP"],
+  },
+  {
+    id: "feature-store-scoring-engine-refactor",
+    title: "Feature Store & Scoring Engine Refactor",
+    description: "Redesigned the GCP feature store, standardised naming, removed redundant features, enabled cross-country reuse, and centralised model assets in Bitbucket. Unified model inputs and outputs so the production scoring engine can call one consistent function while data scientists locally test and deploy versioned models.",
+    image: "/images/unifi_modelgarden.jpg",
+    technologies: ["ML Engineering", "Dataform", "BigQuery", "Bitbucket", "GCP"],
+  },
 ] : []
 const formatDateRange = (start: string, end: string | null) => `${start} - ${end || "Present"}`
 

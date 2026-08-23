@@ -690,6 +690,22 @@ const projects: Project[] = [
     technologies: ["Python", "LightGBM", "RFE", "Bayesian Optimisation", "GCP"],
     category: "work",
   },
+  {
+    id: "collections-prioritisation-models",
+    title: "Collections Prioritisation Models",
+    description: "Developed and deployed 20+ collections prioritisation models across all five countries, covering approximately five million rows and producing descending, recency-aware call queues.",
+    image: "/images/unifi_collections.jpg",
+    technologies: ["Python", "Data Science", "Data Modelling", "LightGBM", "GCP"],
+    category: "work",
+  },
+  {
+    id: "feature-store-scoring-engine-refactor",
+    title: "Feature Store & Scoring Engine Refactor",
+    description: "Rebuilt the GCP feature store and centralised model repository, enabling reusable cross-country features, version-controlled assets, and a unified production scoring interface.",
+    image: "/images/unifi_modelgarden.jpg",
+    technologies: ["ML Engineering", "Dataform", "BigQuery", "Bitbucket", "GCP"],
+    category: "work",
+  },
 ]
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {
