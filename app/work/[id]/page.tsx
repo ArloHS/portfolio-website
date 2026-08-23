@@ -114,13 +114,16 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ id:
             </div>
           </div>
 
-          {/* Technologies */}
-          <div className="flex flex-wrap justify-center gap-2 max-w-3xl mx-auto">
-            {work.technologies.map((tech, index) => (
-              <Badge key={index} variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-sm">
-                {tech}
-              </Badge>
-            ))}
+          {/* Technical Toolkit */}
+          <div className="flex flex-col items-center gap-3 max-w-3xl mx-auto">
+            <p className="text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Technical Toolkit</p>
+            <div className="flex flex-wrap justify-center gap-2">
+              {(work.id === "unifi-africa" ? unifiTools : work.technologies).map((tech, index) => (
+                <Badge key={index} variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-sm">
+                  {tech}
+                </Badge>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -214,13 +217,6 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ id:
               </CardContent>
             </Card>
 
-            <Card className="mb-8">
-              <CardContent className="p-6 md:p-8">
-                <h2 className="text-2xl font-bold mb-4">Technical toolkit</h2>
-                <p className="text-slate-600 dark:text-slate-400 mb-5">My day-to-day work combined modelling, cloud data platforms, production pipelines, and stakeholder communication.</p>
-                <div className="flex flex-wrap gap-2">{unifiTools.map((tool) => <Badge key={tool} variant="secondary" className="bg-slate-100 dark:bg-slate-800">{tool}</Badge>)}</div>
-              </CardContent>
-            </Card>
           </>
         )}
 
