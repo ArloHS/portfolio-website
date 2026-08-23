@@ -707,6 +707,22 @@ const projects: Project[] = [
     technologies: ["Python", "Scikit-learn", "Pandas", "SQL", "Credit Risk"],
     category: "work",
   },
+  {
+    id: "unifi-kenya-behaviour-scorecard",
+    title: "Unifi Kenya Revised Behaviour Scorecard",
+    description: "Rebuilt and productionised the Kenya behavioural scorecard, improving recent-sample AUC from 0.62 to 0.67.",
+    image: "/images/unifi_kenya.png",
+    technologies: ["Python", "LightGBM", "RFE", "Bayesian Optimisation", "GCP"],
+    category: "work",
+  },
+  {
+    id: "unifi-uganda-behaviour-scorecard",
+    title: "Unifi Uganda Revised Behaviour Scorecard",
+    description: "Retrained and upgraded the Uganda behavioural scorecard, improving recent-sample AUC from 0.68 to 0.73.",
+    image: "/images/unifi_uganda.png",
+    technologies: ["Python", "LightGBM", "RFE", "Bayesian Optimisation", "GCP"],
+    category: "work",
+  },
 ]
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {

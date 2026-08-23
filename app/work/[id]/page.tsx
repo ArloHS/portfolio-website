@@ -17,7 +17,8 @@ import Image from "next/image"
 import { notFound } from "next/navigation"
 const workExperiences = [{ id: "artefact", company: "Artefact (prev AdvanceGuidance)", logo: "/images/artefact.png", role: "Senior Machine Learning Engineer", startDate: "2026-09", endDate: null, location: "South Africa", companyDescription: "Artefact is a global data and AI consulting firm. Following its acquisition of Cape Town-based AdvanceGuidance, Artefact South Africa helps organisations turn data and artificial intelligence into scalable business solutions.", jobDescription: "As a Senior Machine Learning Engineer, I build production-grade machine learning systems with strong software engineering foundations, including reliable data pipelines, model deployment, MLOps, CI/CD, monitoring, and observability.", technologies: ["Python", "SQL", "MLOps", "Machine Learning", "Generative AI", "Kubernetes", "CI/CD", "Azure Databricks", "Docker", "Model Deployment", "Model Monitoring"] }, { id: "unifi-africa", company: "Unifi Africa", logo: "/images/unifi-logo.jpg", role: "Data Scientist", startDate: "2025-01", endDate: null, location: "South Africa", companyDescription: "Unifi Africa is a fintech company providing personal credit solutions across Africa through technology and data-driven lending.", jobDescription: "I apply machine learning and statistical modeling to improve collections, credit risk, and customer outcomes.", technologies: ["Python", "SQL", "Machine Learning"] }]
 const getWorkById = (id: string) => workExperiences.find((work) => work.id === id)
-const getWorkProjects = (_id: string) => []
+type WorkProject = { id: string; title: string; description: string; image: string; technologies: string[] }
+const getWorkProjects = (_id: string): WorkProject[] => []
 const formatDateRange = (start: string, end: string | null) => `${start} - ${end || "Present"}`
 
 const unifiHighlights = [

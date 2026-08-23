@@ -597,6 +597,24 @@ const projects: Project[] = [
     category: "work",
     additionalCategories: ["datascience"],
   },
+  {
+    id: "unifi-kenya-behaviour-scorecard",
+    title: "Unifi Kenya Revised Behaviour Scorecard",
+    description: "Rebuilt and productionised the Kenya behavioural scorecard, improving recent-sample AUC from 0.62 to 0.67 and putting the approved model directly into credit decisioning.",
+    image: "/images/unifi_kenya.png",
+    technologies: ["Python", "LightGBM", "RFE", "Bayesian Optimisation", "GCP", "Credit Risk Modelling"],
+    category: "work",
+    additionalCategories: ["datascience"],
+  },
+  {
+    id: "unifi-uganda-behaviour-scorecard",
+    title: "Unifi Uganda Revised Behaviour Scorecard",
+    description: "Retrained and upgraded the Uganda behavioural scorecard, improving recent-sample AUC from 0.68 to 0.73 before productionising it in the credit decisioning flow.",
+    image: "/images/unifi_uganda.png",
+    technologies: ["Python", "LightGBM", "RFE", "Bayesian Optimisation", "GCP", "Credit Risk Modelling"],
+    category: "work",
+    additionalCategories: ["datascience"],
+  },
 ]
 
 function belongsToCategory(project: Project, category: string) {
