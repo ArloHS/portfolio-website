@@ -4,7 +4,7 @@ Course Info:
 Projects:
 2) Sandy-Ai
 3) Ultron Project
-11) ML & AI Projs??
+11) Masters Projects??
 
 About: 
 Done?
@@ -19,9 +19,9 @@ NavBar:
 FIXED!
 
 Host:
-1) HOST
-2) Setup Azure
-3) CI/CD, GIT etc
+DONE: VERCEL
 
 GIT:
 DONE!
+
+WORK PAGE DONE

@@ -1,42 +1,48 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { ChevronDown, ChevronUp, BookOpen, Code, Calculator, BarChart3, Brain, Database, Award } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { ChevronDown, ChevronUp, BookOpen, Code, Calculator, BarChart3, Brain, Database, Award, GraduationCap, Cog } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 type Course = {
   title: string
   description: string
-  categories?: ("math" | "cs" | "stats" | "ds" | "research" | "ml")[]
+  credits?: number
+  categories?: ("math" | "cs" | "stats" | "ds" | "research" | "ml" | "eng" | "management")[]
 }
 
 type YearData = {
   year: string
-  status: string
+  status: "completed" | "current" | "upcoming"
   totalCourses: number
   courses: Course[]
 }
 
+type DegreeData = {
+  id: string
+  name: string
+  shortName: string
+  subtitle: string
+  institution: string
+  period: string
+  description: string
+  status: "completed" | "in-progress"
+  years: YearData[]
+}
+
 const getCourseIcon = (categories: string[]) => {
-  // Priority order for icon selection
   if (categories.includes("research")) return <Brain className="h-4 w-4" />
   if (categories.includes("ml")) return <Brain className="h-4 w-4" />
   if (categories.includes("ds")) return <Database className="h-4 w-4" />
   if (categories.includes("cs")) return <Code className="h-4 w-4" />
   if (categories.includes("stats")) return <BarChart3 className="h-4 w-4" />
   if (categories.includes("math")) return <Calculator className="h-4 w-4" />
+  if (categories.includes("eng")) return <Cog className="h-4 w-4" />
+  if (categories.includes("management")) return <BookOpen className="h-4 w-4" />
   return <BookOpen className="h-4 w-4" />
-}
-
-const getCourseCategory = (title: string): Course["categories"] => {
-  if (title.toLowerCase().includes("mathematics") || title.toLowerCase().includes("actuarial")) return ["math"]
-  if (title.toLowerCase().includes("computer science") || title.toLowerCase().includes("algorithms")) return ["cs"]
-  if (title.toLowerCase().includes("statistics") || title.toLowerCase().includes("statistical")) return ["stats"]
-  if (title.toLowerCase().includes("data science") || title.toLowerCase().includes("machine learning")) return ["ds"]
-  if (title.toLowerCase().includes("research") || title.toLowerCase().includes("honours")) return ["research"]
-  return ["cs"]
 }
 
 const getCategoryColor = (category: string) => {
@@ -53,12 +59,154 @@ const getCategoryColor = (category: string) => {
       return "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200"
     case "ml":
       return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+    case "eng":
+      return "bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200"
+    case "management":
+      return "bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200"
     default:
       return "bg-slate-100 text-slate-800 dark:bg-slate-900 dark:text-slate-200"
   }
 }
 
-const universityData: YearData[] = [
+const getStatusColor = (status: string) => {
+  switch (status) {
+    case "completed":
+      return "bg-green-500"
+    case "current":
+      return "bg-blue-500"
+    case "upcoming":
+      return "bg-slate-400"
+    default:
+      return "bg-slate-400"
+  }
+}
+
+const getStatusText = (status: string) => {
+  switch (status) {
+    case "completed":
+      return "Completed"
+    case "current":
+      return "In Progress"
+    case "upcoming":
+      return "Upcoming"
+    default:
+      return "Unknown"
+  }
+}
+
+
+// Master's Degree Data
+const mastersData: DegreeData = {
+  id: "masters",
+  name: "Master of Engineering (MEng)",
+  shortName: "Master's",
+  subtitle: "Focus Area: Data Science",
+  institution: "Stellenbosch University",
+  period: "February 2025 - December 2026",
+  description: "Advanced postgraduate programme consisting of eight 15-credit modules, a 60-credit research assignment, and professional development in data science and engineering.",
+  status: "in-progress",
+  years: [
+    {
+      year: "Year 1",
+      status: "current",
+      totalCourses: 6,
+      courses: [
+        {
+          title: "Data Science (Eng) 874",
+          credits: 15,
+          description: "Data science is the application of computational, statistical, and machine learning techniques to gain insight into real world problems. The main focus is on the data science project life cycle: obtain, scrub/wrangling, explore, model, and interpret. Students understand the process of constructing a data pipeline, from raw data to knowledge. Case studies from the engineering domain explore each of these steps.",
+          categories: ["ds"],
+        },
+        {
+          title: "Applied Machine Learning 874",
+          credits: 15,
+          description: "Students are exposed to a wide range of machine learning techniques and gain practical experience in implementing them. Topics include information-based learning, similarity-based learning, error-based learning, kernel-based learning, probabilistic learning, ensemble learning, and incremental learning. Students learn theoretical underpinnings and practical know-how to apply these techniques to real-world problems.",
+          categories: ["ml", "ds"],
+        },
+        {
+          title: "Optimisation (Eng) 874",
+          credits: 15,
+          description: "Master the art of building and solving optimisation models: Linear programming, assignment models, and integer programming models. Understand different classes of optimisation problems including multi-objective, many-objective, constrained, and dynamic optimisation problems. Implement advanced metaheuristic and hybrid metaheuristic optimisation paradigms and algorithms.",
+          categories: ["math", "eng"],
+        },
+        {
+          title: "Big Data Technologies (Eng) 874",
+          credits: 15,
+          description: "Focuses on tools and platforms for big data management and processing. Covers governance, administration and organization of large volumes of structured and unstructured data. Includes NoSQL, data warehousing, distributed systems, map-reduce, Spark, Hadoop, and data virtualization. Addresses data streams, data fusion, and social media/sensor data sources.",
+          categories: ["ds", "eng"],
+        },
+        {
+          title: "Data Analytics (Eng) 874",
+          credits: 15,
+          description: "Learn the data analytics life cycle and how to apply each phase to solve engineering data analytics problems. Topics include exploratory data analysis, machine learning approaches for mining knowledge, extracting hidden patterns, associations and correlations. Advanced approaches focus on visual analytics, image analytics, text analytics, and time series analytics.",
+          categories: ["ds", "stats"],
+        },
+        {
+          title: "Professional Communication 874",
+          credits: 1,
+          description: "Develops professional communication skills essential for engineers and data scientists in industry and research settings. Focuses on clear, effective technical writing and presentation of complex data-driven insights to diverse audiences.",
+          categories: ["management"],
+        },
+      ],
+    },
+    {
+      year: "Year 2",
+      status: "upcoming",
+      totalCourses: 4,
+      courses: [
+        {
+          title: "Applied Deep Learning 874",
+          credits: 15,
+          description: "Covers the basics of deep learning starting with neural network fundamentals. Topics include multi-layer perceptrons, deep feedforward neural networks, convolutional neural networks, architectures (AlexNet, GoogLeNet, ResNet), transfer learning, augmentation, Siamese neural networks, image segmentation, interpretability, object detection, autoencoders, recurrent neural networks, text and audio classification.",
+          categories: ["ml", "ds"],
+        },
+        {
+          title: "Project Management 873",
+          credits: 15,
+          description: "Advanced topics in project management building on traditional project scheduling. Covers critical chain management, managing project risks through identification, assessment, and mitigating strategies. Includes resource/cost management, contingency planning, team selection, contract management, project leadership, procurement from tender through supplier selection, and differences between commercial and research projects.",
+          categories: ["management"],
+        },
+        {
+          title: "Numerical Methods TW876",
+          credits: 15,
+          description: "Focuses on matrix computations. Studies effective solution of linear systems involving both square and rectangular matrices (least-squares). Covers direct and iterative methods with emphasis on sparse matrices and matrices with structure. Includes numerical methods for eigenvalue problems. Model problems from partial differential equations, data analysis, and image processing.",
+          categories: ["math", "cs"],
+        },
+        {
+          title: "Project Economics and Finance 812",
+          credits: 15,
+          description: "Focuses on financing business opportunities through combinations of debt and equity based on future profitability. Covers construction loans, public-private partnerships, feasibility studies, techno-economic analysis, economic growth, value drivers, sustainability, Balanced Scorecard, EVA/MVA, ratio analysis, costing systems, and infrastructure development finance.",
+          categories: ["management", "eng"],
+        },
+      ],
+    },
+    {
+      year: "Research",
+      status: "upcoming",
+      totalCourses: 1,
+      courses: [
+        {
+          title: "Data Science Research Project & Assignment 876",
+          credits: 60,
+          description: "Students apply and consolidate knowledge gained throughout the programme by solving a real-world data science project, providing solutions for each step of the data science project life cycle. The outcome is a research assignment describing all life cycle phases and research conducted to provide a solution to a specific data science problem. Projects are sourced from industry and academic partners.",
+          categories: ["research", "ds", "ml"],
+        },
+      ],
+    },
+  ],
+}
+
+// Bachelor's Degree Data
+const bachelorData: DegreeData = {
+  id: "bachelors",
+  name: "Bachelor of Data Science (BDatSci)",
+  shortName: "Bachelor's",
+  subtitle: "Focal Area: Computer Science",
+  institution: "Stellenbosch University",
+  period: "February 2021 - December 2025",
+  description: "Completed a comprehensive foundation in data science, computer science, mathematics, and statistics.",
+  status: "completed",
+  years: [
   {
     year: "1st Year",
     status: "completed",
@@ -278,41 +426,18 @@ const universityData: YearData[] = [
       },
     ],
   },
-]
-
-const getStatusColor = (status: string) => {
-  switch (status) {
-    case "completed":
-      return "bg-green-500"
-    case "current":
-      return "bg-blue-500"
-    case "upcoming":
-      return "bg-slate-400"
-    default:
-      return "bg-slate-400"
-  }
+  ],
 }
 
-const getStatusText = (status: string) => {
-  switch (status) {
-    case "completed":
-      return "Completed"
-    case "current":
-      return "In Progress"
-    case "upcoming":
-      return "Upcoming"
-    default:
-      return "Unknown"
-  }
-}
+const allDegrees = [mastersData, bachelorData]
 
 export default function UniversityPage() {
-  const [openYears, setOpenYears] = useState<Record<string, boolean>>({
-    "1st Year": false,
-    "2nd Year": false,
-    "3rd Year": false,
-    "4th Year": false, // Open current year by default
-  })
+  const [activeDegree, setActiveDegree] = useState<string>("masters")
+  const [openYears, setOpenYears] = useState<Record<string, boolean>>({})
+  const bachelorRef = useRef<HTMLDivElement>(null)
+  const masterRef = useRef<HTMLDivElement>(null)
+
+  const currentDegree = allDegrees.find((d) => d.id === activeDegree) || mastersData
 
   const toggleYear = (year: string) => {
     setOpenYears((prev) => ({
@@ -321,31 +446,136 @@ export default function UniversityPage() {
     }))
   }
 
-  const totalCourses = universityData.reduce((sum, year) => sum + year.totalCourses, 0)
-  const completedCourses = universityData
+  const scrollToDegree = (degreeId: string) => {
+    setActiveDegree(degreeId)
+    const ref = degreeId === "bachelors" ? bachelorRef : masterRef
+    ref.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+  }
+
+  const totalCredits = currentDegree.years.reduce(
+    (sum, year) => sum + year.courses.reduce((s, c) => s + (c.credits || 0), 0),
+    0
+  )
+  const totalCourses = currentDegree.years.reduce((sum, year) => sum + year.totalCourses, 0)
+  const completedCourses = currentDegree.years
     .filter((year) => year.status === "completed")
     .reduce((sum, year) => sum + year.totalCourses, 0)
 
   return (
     <div className="container mx-auto px-4 py-12">
+      {/* Degree Navigation */}
+      <div className="flex justify-center mb-8">
+        <div className="inline-flex bg-slate-100 dark:bg-slate-800 rounded-lg p-1 gap-1">
+          {allDegrees.map((degree) => (
+            <Button
+              key={degree.id}
+              variant={activeDegree === degree.id ? "default" : "ghost"}
+              className={cn(
+                "transition-all",
+                activeDegree === degree.id
+                  ? "bg-teal-600 hover:bg-teal-700 text-white"
+                  : "hover:bg-slate-200 dark:hover:bg-slate-700"
+              )}
+              onClick={() => scrollToDegree(degree.id)}
+            >
+              <GraduationCap className="h-4 w-4 mr-2" />
+              {degree.shortName}
+              {degree.status === "in-progress" && (
+                <Badge className="ml-2 bg-blue-500 text-white text-xs">Current</Badge>
+              )}
+            </Button>
+          ))}
+        </div>
+      </div>
+
+      {/* Master's Degree Section */}
+      <div ref={masterRef} className="mb-16 scroll-mt-20">
+        <DegreeSection
+          degree={mastersData}
+          isActive={activeDegree === "masters"}
+          openYears={openYears}
+          toggleYear={toggleYear}
+          totalCredits={mastersData.years.reduce(
+            (sum, year) => sum + year.courses.reduce((s, c) => s + (c.credits || 0), 0),
+            0
+          )}
+        />
+      </div>
+
+      {/* Divider */}
+      <div className="max-w-5xl mx-auto mb-16">
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-slate-300 dark:border-slate-700"></div>
+          </div>
+          <div className="relative flex justify-center">
+            <span className="bg-white dark:bg-slate-950 px-4 text-sm text-slate-500 dark:text-slate-400">
+              Previous Education
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Bachelor's Degree Section */}
+      <div ref={bachelorRef} className="scroll-mt-20">
+        <DegreeSection
+          degree={bachelorData}
+          isActive={activeDegree === "bachelors"}
+          openYears={openYears}
+          toggleYear={toggleYear}
+          totalCredits={0}
+        />
+      </div>
+    </div>
+  )
+}
+
+function DegreeSection({
+  degree,
+  isActive,
+  openYears,
+  toggleYear,
+  totalCredits,
+}: {
+  degree: DegreeData
+  isActive: boolean
+  openYears: Record<string, boolean>
+  toggleYear: (year: string) => void
+  totalCredits: number
+}) {
+  const totalCourses = degree.years.reduce((sum, year) => sum + year.totalCourses, 0)
+  const completedCourses = degree.years
+    .filter((year) => year.status === "completed")
+    .reduce((sum, year) => sum + year.totalCourses, 0)
+
+  return (
+    <>
       {/* Header Section */}
       <div className="text-center mb-12">
         <div className="flex items-center justify-center mb-4">
-          <Award className="h-8 w-8 text-teal-600 mr-3" />
-          <h1 className="text-4xl font-bold">Bachelor of Data Science (BDatSci)</h1>
+          {degree.status === "completed" ? (
+            <Award className="h-8 w-8 text-teal-600 mr-3" />
+          ) : (
+            <GraduationCap className="h-8 w-8 text-teal-600 mr-3" />
+          )}
+          <h1 className="text-3xl md:text-4xl font-bold">{degree.name}</h1>
+          {degree.status === "in-progress" && (
+            <Badge className="ml-3 bg-blue-500 text-white">In Progress</Badge>
+          )}
         </div>
-        <h2 className="text-2xl font-semibold mb-6 text-teal-600">Focal Area: Computer Science</h2>
-        <p className="max-w-2xl mx-auto mb-8 text-slate-600 dark:text-slate-400">
-          Completed at <strong>Stellenbosch University</strong>,
-          this degree provided a comprehensive foundation in data science, computer science, mathematics, and statistics.
+        <h2 className="text-xl md:text-2xl font-semibold mb-4 text-teal-600">{degree.subtitle}</h2>
+        <p className="max-w-2xl mx-auto mb-2 text-slate-600 dark:text-slate-400">
+          <strong>{degree.institution}</strong> | {degree.period}
         </p>
+        <p className="max-w-2xl mx-auto mb-8 text-slate-600 dark:text-slate-400">{degree.description}</p>
 
         {/* Progress Overview */}
         <div className="max-w-md mx-auto mb-8">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Overall Progress</span>
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Progress</span>
             <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-              {completedCourses}/{totalCourses} courses
+              {completedCourses}/{totalCourses} modules
+              {totalCredits > 0 && ` (${totalCredits} credits total)`}
             </span>
           </div>
           <div className="w-full bg-slate-200 rounded-full h-2 dark:bg-slate-700">
@@ -360,42 +590,48 @@ export default function UniversityPage() {
         </div>
 
         {/* Legend */}
-        <div className="flex flex-wrap justify-center gap-4 mb-8">
+        <div className="flex flex-wrap justify-center gap-3 mb-8">
           <div className="flex items-center">
-            <Calculator className="h-4 w-4 mr-2 text-blue-600" />
-            <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">Mathematics</Badge>
+            <Calculator className="h-4 w-4 mr-1.5 text-blue-600" />
+            <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 text-xs">Math</Badge>
           </div>
           <div className="flex items-center">
-            <Code className="h-4 w-4 mr-2 text-green-600" />
-            <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-              Computer Science
-            </Badge>
+            <Code className="h-4 w-4 mr-1.5 text-green-600" />
+            <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 text-xs">CS</Badge>
           </div>
           <div className="flex items-center">
-            <BarChart3 className="h-4 w-4 mr-2 text-purple-600" />
-            <Badge className="bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">Statistics</Badge>
+            <BarChart3 className="h-4 w-4 mr-1.5 text-purple-600" />
+            <Badge className="bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 text-xs">Stats</Badge>
           </div>
           <div className="flex items-center">
-            <Database className="h-4 w-4 mr-2 text-teal-600" />
-            <Badge className="bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200">Data Science</Badge>
+            <Database className="h-4 w-4 mr-1.5 text-teal-600" />
+            <Badge className="bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200 text-xs">Data Science</Badge>
           </div>
           <div className="flex items-center">
-            <Brain className="h-4 w-4 mr-2 text-red-600" />
-            <Badge className="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">Machine Learning</Badge>
+            <Brain className="h-4 w-4 mr-1.5 text-red-600" />
+            <Badge className="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 text-xs">ML</Badge>
           </div>
           <div className="flex items-center">
-            <Brain className="h-4 w-4 mr-2 text-orange-600" />
-            <Badge className="bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200">Research</Badge>
+            <Brain className="h-4 w-4 mr-1.5 text-orange-600" />
+            <Badge className="bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200 text-xs">Research</Badge>
+          </div>
+          <div className="flex items-center">
+            <Cog className="h-4 w-4 mr-1.5 text-amber-600" />
+            <Badge className="bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200 text-xs">Engineering</Badge>
+          </div>
+          <div className="flex items-center">
+            <BookOpen className="h-4 w-4 mr-1.5 text-indigo-600" />
+            <Badge className="bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200 text-xs">Management</Badge>
           </div>
         </div>
       </div>
 
       {/* Years Section */}
       <div className="max-w-5xl mx-auto space-y-6">
-        {universityData.map((yearData) => (
-          <Card key={yearData.year} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+        {degree.years.map((yearData) => (
+          <Card key={`${degree.id}-${yearData.year}`} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
             <button
-              onClick={() => toggleYear(yearData.year)}
+              onClick={() => toggleYear(`${degree.id}-${yearData.year}`)}
               className="w-full flex items-center justify-between p-6 text-left bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-700 hover:from-slate-100 hover:to-slate-200 dark:hover:from-slate-700 dark:hover:to-slate-600 transition-all"
             >
               <div className="flex items-center space-x-4">
@@ -403,37 +639,50 @@ export default function UniversityPage() {
                 <div>
                   <h2 className="text-2xl font-bold">{yearData.year}</h2>
                   <p className="text-sm text-slate-600 dark:text-slate-400">
-                    {getStatusText(yearData.status)} • {yearData.totalCourses} courses
+                    {getStatusText(yearData.status)} | {yearData.totalCourses} module{yearData.totalCourses !== 1 ? "s" : ""}
                   </p>
                 </div>
               </div>
               <div className="flex items-center space-x-2">
                 <Badge variant="outline" className="hidden sm:inline-flex">
-                  {yearData.totalCourses} courses
+                  {yearData.totalCourses} module{yearData.totalCourses !== 1 ? "s" : ""}
                 </Badge>
-                {openYears[yearData.year] ? <ChevronUp className="h-6 w-6" /> : <ChevronDown className="h-6 w-6" />}
+                {openYears[`${degree.id}-${yearData.year}`] ? (
+                  <ChevronUp className="h-6 w-6" />
+                ) : (
+                  <ChevronDown className="h-6 w-6" />
+                )}
               </div>
             </button>
 
             <div
               className={cn(
                 "transition-all duration-300 ease-in-out",
-                openYears[yearData.year] ? "max-h-[5000px] opacity-100" : "max-h-0 opacity-0 overflow-hidden",
+                openYears[`${degree.id}-${yearData.year}`]
+                  ? "max-h-[5000px] opacity-100"
+                  : "max-h-0 opacity-0 overflow-hidden"
               )}
             >
               <CardContent className="p-6 pt-2">
                 <div className="grid gap-6">
-                  {yearData.courses.map((course, index) => (
+                  {yearData.courses.map((course) => (
                     <div
                       key={course.title}
                       className="group p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-md transition-all"
                     >
-                      <div className="flex items-start justify-between mb-3">
+                      <div className="flex items-start justify-between mb-3 flex-wrap gap-2">
                         <div className="flex items-center space-x-3">
                           <div className="flex-shrink-0">{getCourseIcon(course.categories || ["cs"])}</div>
-                          <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
-                            {course.title}
-                          </h3>
+                          <div>
+                            <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
+                              {course.title}
+                            </h3>
+                            {course.credits && (
+                              <p className="text-sm text-slate-500 dark:text-slate-400">
+                                {course.credits} credit{course.credits !== 1 ? "s" : ""}
+                              </p>
+                            )}
+                          </div>
                         </div>
                         <div className="flex flex-wrap gap-1">
                           {(course.categories || ["cs"]).map((category) => (
@@ -457,11 +706,11 @@ export default function UniversityPage() {
       <div className="max-w-4xl mx-auto mt-12">
         <Card className="bg-gradient-to-r from-teal-50 to-slate-50 dark:from-teal-950 dark:to-slate-950">
           <CardContent className="p-8">
-            <h3 className="text-2xl font-bold text-center mb-6">Degree Summary</h3>
+            <h3 className="text-2xl font-bold text-center mb-6">{degree.shortName} Summary</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
               <div>
                 <div className="text-3xl font-bold text-teal-600">{totalCourses}</div>
-                <div className="text-sm text-slate-600 dark:text-slate-400">Total Courses</div>
+                <div className="text-sm text-slate-600 dark:text-slate-400">Total Modules</div>
               </div>
               <div>
                 <div className="text-3xl font-bold text-green-600">{completedCourses}</div>
@@ -469,18 +718,22 @@ export default function UniversityPage() {
               </div>
               <div>
                 <div className="text-3xl font-bold text-blue-600">
-                  {universityData.find((y) => y.status === "current")?.totalCourses || 0}
+                  {degree.years.filter((y) => y.status === "current").reduce((sum, y) => sum + y.totalCourses, 0)}
                 </div>
                 <div className="text-sm text-slate-600 dark:text-slate-400">In Progress</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-teal-600">4</div>
-                <div className="text-sm text-slate-600 dark:text-slate-400">Years</div>
+                <div className="text-3xl font-bold text-teal-600">
+                  {totalCredits > 0 ? totalCredits : degree.years.length}
+                </div>
+                <div className="text-sm text-slate-600 dark:text-slate-400">
+                  {totalCredits > 0 ? "Total Credits" : "Years"}
+                </div>
               </div>
             </div>
           </CardContent>
         </Card>
       </div>
-    </div>
+    </>
   )
 }

@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import Image from "next/image"
@@ -14,7 +15,17 @@ import {
   Award,
   Phone,
   Mail,
+  Briefcase,
+  Calendar,
+  Clock,
+  MapPin,
+  ChevronRight,
 } from "lucide-react"
+const workExperiences = [{ id: "artefact", company: "Artefact (prev AdvanceGuidance)", logo: "/images/artefact.jpg", role: "Senior Machine Learning Engineer", startDate: "2026-09", endDate: null, location: "South Africa", companyDescription: "Artefact is a global data and AI consulting firm. Following its acquisition of Cape Town-based AdvanceGuidance, Artefact South Africa helps organisations turn data and artificial intelligence into scalable business solutions.", jobDescription: "As a Senior Machine Learning Engineer, I build production-grade machine learning systems with reliable data pipelines, model deployment, MLOps, CI/CD, monitoring, and observability.", technologies: ["Python", "SQL", "MLOps", "Machine Learning", "Generative AI", "Kubernetes", "CI/CD"] }, { id: "unifi-africa", company: "Unifi Africa", logo: "/images/unifi.png", role: "Data Scientist", startDate: "2026-01", endDate: "2026-09", location: "South Africa", companyDescription: "Unifi Africa is a fintech company providing personal credit solutions across Africa through technology and data-driven lending.", jobDescription: "I apply machine learning and statistical modeling to improve collections, credit risk, and customer outcomes.", technologies: ["Python", "SQL"] }]
+const getSortedWorkExperiences = () => workExperiences
+const formatDateRange = (start: string, end: string | null) => `${start} - ${end || "Present"}`
+const calculateDuration = (_start: string, _end: string | null) => "Current"
+const getWorkProjects = (_id: string) => [{ id: "model-health-dashboard" }, { id: "collections-prioritization-model" }, { id: "organogram" }, { id: "scorecard-builder" }]
 
 export default function AboutPage() {
   return (
@@ -81,6 +92,68 @@ export default function AboutPage() {
           </Card>
         </section>
 
+        {/* Work Experience Section */}
+        <section>
+          <Card>
+            <CardContent className="p-8">
+              <h2 className="text-3xl font-bold mb-6 flex items-center">
+                <Briefcase className="mr-3 h-8 w-8 text-teal-600" />
+                Work Experience
+              </h2>
+              <div className="space-y-6">
+                {getSortedWorkExperiences().map((work) => {
+                  const projectCount = getWorkProjects(work.id).length
+                  return (
+                    <Link key={work.id} href={`/work/${work.id}`} className="block group">
+                      <div className="border-l-4 border-teal-600 pl-6 transition-all group-hover:border-teal-400">
+                        <div className="flex items-start gap-4">
+                          <div className="flex-shrink-0 mt-1">
+                            <div className="w-12 h-12 relative rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 bg-white">
+                              <Image
+                                src={work.logo}
+                                alt={`${work.company} logo`}
+                                fill
+                                className="object-cover"
+                              />
+                            </div>
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex items-start justify-between gap-2">
+                              <div>
+                                <h3 className="text-xl font-semibold group-hover:text-teal-600 transition-colors">{work.company}</h3>
+                                <p className="text-teal-600 dark:text-teal-400 font-medium">{work.role}</p>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                {!work.endDate && (
+                                  <Badge className="bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200">Current</Badge>
+                                )}
+                                <ChevronRight className="h-5 w-5 text-slate-400 group-hover:text-teal-600 transition-colors hidden sm:block" />
+                              </div>
+                            </div>
+                            <div className="flex flex-wrap gap-3 mt-1 text-sm text-slate-500 dark:text-slate-400">
+                              <span className="flex items-center"><Calendar className="h-3.5 w-3.5 mr-1" />{formatDateRange(work.startDate, work.endDate)}</span>
+                              <span className="flex items-center"><Clock className="h-3.5 w-3.5 mr-1" />{calculateDuration(work.startDate, work.endDate)}</span>
+                              <span className="flex items-center"><MapPin className="h-3.5 w-3.5 mr-1" />{work.location}</span>
+                            </div>
+                            <p className="text-slate-600 dark:text-slate-400 mt-2 text-sm line-clamp-2">
+                              {work.jobDescription.split(".").slice(0, 2).join(".") + "."}
+                            </p>
+                            {projectCount > 0 && (
+                              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                                {projectCount} project{projectCount !== 1 ? "s" : ""}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  )
+                })}
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
         {/* Qualifications Section */}
         <section>
           <Card>
@@ -94,6 +167,30 @@ export default function AboutPage() {
                   <div className="flex items-start space-x-3 mb-3">
                     <GraduationCap className="h-6 w-6 text-teal-600 mt-1" />
                     <div>
+                      <div className="flex items-center gap-2">
+                        <h3 className="text-xl font-semibold">Master of Engineering (MEng)</h3>
+                        <Badge className="bg-blue-500 text-white text-xs">Current</Badge>
+                      </div>
+                      <p className="text-teal-600 dark:text-teal-400 font-medium">Stellenbosch University</p>
+                      <p className="text-sm text-slate-500 dark:text-slate-400">
+                        February 2026 - December 2027
+                      </p>
+                      <p className="text-sm font-medium text-slate-700 dark:text-slate-300 mt-1">
+                        Focus Area: Data Science
+                      </p>
+                    </div>
+                  </div>
+                  <p className="text-slate-600 dark:text-slate-400">
+                    Advanced postgraduate programme consisting of eight 15-credit modules, a 60-credit research assignment, 
+                    and professional development. Covers applied machine learning, big data technologies, optimisation, 
+                    deep learning, and data analytics.
+                  </p>
+                </div>
+
+                <div className="border-l-4 border-teal-600 pl-6">
+                  <div className="flex items-start space-x-3 mb-3">
+                    <Award className="h-6 w-6 text-teal-600 mt-1" />
+                    <div>
                       <h3 className="text-xl font-semibold">Bachelor of Data Science (BDatSci)</h3>
                       <p className="text-teal-600 dark:text-teal-400 font-medium">Stellenbosch University</p>
                       <p className="text-sm text-slate-500 dark:text-slate-400">
@@ -106,7 +203,7 @@ export default function AboutPage() {
                   </div>
                   <p className="text-slate-600 dark:text-slate-400">
                     Comprehensive program covering mathematical foundations, statistical modeling, machine learning, and
-                    computer science principles. Currently excelling in advanced courses including machine learning,
+                    computer science principles. Completed with advanced courses including machine learning,
                     functional programming, and data science.
                   </p>
                 </div>
@@ -242,7 +339,7 @@ export default function AboutPage() {
                   </svg>
                   Download CV (PDF)
                 </a>
-                <p className="text-sm text-slate-500 dark:text-slate-400">Last updated: January 2025</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Last updated: August 2026</p>
               </div>
             </CardContent>
           </Card>
@@ -379,9 +476,7 @@ export default function AboutPage() {
             <CardContent className="p-8 text-center">
               <h2 className="text-3xl font-bold mb-4">Looking Forward</h2>
               <p className="text-lg text-slate-600 dark:text-slate-400 mb-6 max-w-2xl mx-auto">
-                As I approach the completion of my degree, I'm excited about the opportunities to apply my skills in
-                real-world settings, contribute to meaningful projects, and continue growing as a data scientist and
-                MLOps engineer.
+                Having completed my bachelor’s degree, I’m now working as a Senior Machine Learning Engineer while pursuing a Master’s in Engineering with a focal in Data Science. I’m excited to keep applying my skills to real-world challenges, contribute to meaningful projects, and continue growing at the intersection of data science, machine learning, and AI.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/projects">

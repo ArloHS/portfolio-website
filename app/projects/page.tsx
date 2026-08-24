@@ -13,8 +13,9 @@ type Project = {
   description: string
   image: string
   technologies?: string[]
-  category: "featured" | "mlops" | "datascience" | "computerscience"
-  additionalCategories?: ("mlops" | "datascience" | "computerscience")[] // For featured projects that belong to multiple categories
+  category: string
+  additionalCategories?: string[]
+  githublink?: string
 }
 
 // Project data
@@ -41,7 +42,7 @@ const projects: Project[] = [
       "Anomaly Detection",
     ],
     category: "featured",
-    additionalCategories: ["mlops", "datascience"],
+    additionalCategories: ["mle", "datascience"],
   },
   {
     id: "llama-fine-tuning",
@@ -562,22 +563,105 @@ const projects: Project[] = [
     technologies: ["Java", "Data Structures", "Trie", "Arrays", "File I/O", "Interface Design", "Algorithms"],
     category: "computerscience",
   },
+      // Work Projects (Unifi Africa)
+  {
+    id: "unifi-kenya-behaviour-scorecard",
+    title: "Unifi Kenya Revised Behaviour Scorecard",
+    description:
+      "Rebuilt the Kenya behavioural scorecard (ke_bhv_v4) as a production LightGBM model deployed through Unifi's ModelGarden MLOps pipeline. The workstream spanned feature engineering against a point-in-time-safe BigQuery feature store, calibration and reject-inference analysis, and end-to-end validation across the get/validate/transform/apply architecture. The revised scorecard drives credit decisioning for repeat borrowers in the Kenyan market and forms part of a broader multi-country behavioural scorecard refresh.",
+    image: "/images/unifi_kenya.jpg",
+    technologies: [
+      "Python",
+      "LightGBM",
+      "BigQuery",
+      "ModelGarden",
+      "Credit Risk",
+      "Behavioural Scorecard",
+      "Feature Store",
+      "Calibration",
+      "Reject Inference",
+      "MLOps",
+    ],
+    category: "featured",
+    additionalCategories: ["datascience", "work"],
+  },
+  {
+    id: "unifi-uganda-behaviour-scorecard",
+    title: "Unifi Uganda Revised Behaviour Scorecard",
+    description:
+      "Delivered the revised Uganda behavioural scorecard, building point-in-time-safe features in BigQuery and training a LightGBM model deployed via the ModelGarden pipeline. Work covered feature engineering, PIT-safe joins across the feature store, model training and calibration, and validation against Uganda-specific portfolio behaviour. The scorecard is used for credit decisioning on repeat borrowers in the Ugandan market.",
+    image: "/images/unifi_uganda.jpg",
+    technologies: [
+      "Python",
+      "LightGBM",
+      "BigQuery",
+      "ModelGarden",
+      "Credit Risk",
+      "Behavioural Scorecard",
+      "Feature Store",
+      "PIT-Safe Joins",
+      "Model Calibration",
+      "MLOps",
+    ],
+    category: "featured",
+    additionalCategories: ["datascience", "work"],
+  },
+  {
+    id: "collections-prioritisation-models",
+    title: "Collections Prioritisation Models",
+    description:
+      "Built collections prioritisation scorecards across four African markets (Kenya, Uganda, South Africa, Zambia) as production LightGBM models running through the ModelGarden get/validate/transform/apply pipeline. The models rank delinquent accounts by expected recovery so collections effort can be focused where it has the highest yield. The workstream covered feature engineering against the shared feature store, per-country model training and calibration, and integration into the wider collections operations workflow.",
+    image: "/images/unifi_collections.jpg",
+    technologies: [
+      "Python",
+      "LightGBM",
+      "BigQuery",
+      "ModelGarden",
+      "Collections",
+      "Credit Risk",
+      "Multi-Country Modelling",
+      "Feature Store",
+      "Model Calibration",
+      "MLOps",
+    ],
+    category: "featured",
+    additionalCategories: ["datascience", "work"],
+  },
+  {
+    id: "feature-store-scoring-engine-refactor",
+    title: "Feature Store & Scoring Engine Refactor",
+    description:
+      "Led a refactor of Unifi's shared feature store and scoring engine within the ModelGarden MLOps platform on GCP. The work standardised feature-store naming conventions, hardened the get/validate/transform/apply contract used by every production scorecard, and improved the pytest suites that guard the pipeline. The refactor cut duplicated feature logic across country scorecards and made it faster to ship new models onto the shared infrastructure.",
+    image: "/images/unifi_modelgarden.jpg",
+    technologies: [
+      "Python",
+      "GCP",
+      "BigQuery",
+      "ModelGarden",
+      "Feature Store",
+      "MLOps",
+      "ML Engineering",
+      "pytest",
+      "Pipeline Architecture",
+      "Refactoring",
+    ],
+    category: "featured",
+    additionalCategories: ["mle", "work"],
+  },
 ]
 
-export default function ProjectsPage() {
-  // Helper function to check if a project belongs to a category
-  const belongsToCategory = (project: Project, category: string) => {
-    return (
-      project.category === category ||
-      (project.additionalCategories && project.additionalCategories.includes(category as any))
-    )
-  }
 
+function belongsToCategory(project: Project, category: string) {
+  return project.category === category || project.additionalCategories?.includes(category)
+}
+
+export default function ProjectsPage() {
   // Filter projects by category
   const featuredProjects = projects.filter((project) => project.category === "featured")
-  const mlopsProjects = projects.filter((project) => belongsToCategory(project, "mlops"))
+  const mlopsProjects = projects.filter((project) => belongsToCategory(project, "mle"))
   const datascienceProjects = projects.filter((project) => belongsToCategory(project, "datascience"))
   const csProjects = projects.filter((project) => belongsToCategory(project, "computerscience"))
+  const workProjects = projects.filter((project) => belongsToCategory(project, "work"))
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -587,11 +671,12 @@ export default function ProjectsPage() {
       </p>
 
       <Tabs defaultValue="featured" className="w-full mb-12">
-        <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 mb-8">
+        <TabsList className="grid w-full grid-cols-3 md:grid-cols-5 mb-8">
           <TabsTrigger value="featured">Featured</TabsTrigger>
-          <TabsTrigger value="mlops">MLOps Engineering</TabsTrigger>
+          <TabsTrigger value="work">Work</TabsTrigger>
+          <TabsTrigger value="mle">MLE</TabsTrigger>
           <TabsTrigger value="datascience">Data Science</TabsTrigger>
-          <TabsTrigger value="computerscience">Computer Science</TabsTrigger>
+          <TabsTrigger value="computerscience">CS</TabsTrigger>
         </TabsList>
 
         <TabsContent value="featured" className="mt-6">
@@ -602,7 +687,15 @@ export default function ProjectsPage() {
           </div>
         </TabsContent>
 
-        <TabsContent value="mlops" className="mt-6">
+        <TabsContent value="work" className="mt-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {workProjects.map((project) => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="mle" className="mt-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {mlopsProjects.map((project) => (
               <ProjectCard key={project.id} project={project} />

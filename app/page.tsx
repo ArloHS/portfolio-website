@@ -1,9 +1,36 @@
 import type React from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight, Code, Database, LineChart, ChevronRight, GraduationCap, Award, BookOpen, BarChart3, Brain, Cloud, Cog, Server, Zap } from "lucide-react"
+import { ArrowRight, Code, Database, LineChart, ChevronRight, GraduationCap, Award, BookOpen, BarChart3, Brain, Cloud, Cog, Server, Zap, Calendar, Clock, MapPin, Briefcase } from "lucide-react"
+const workExperiences = [{ id: "artefact", company: "Artefact (prev AdvanceGuidance)", logo: "/images/artefact.jpg", role: "Senior Machine Learning Engineer", startDate: "2026-09", endDate: null, location: "South Africa", companyDescription: "Artefact is a global data and AI consulting firm. Following its acquisition of Cape Town-based AdvanceGuidance, Artefact South Africa helps organisations turn data and artificial intelligence into scalable business solutions.", jobDescription: "As a Senior Machine Learning Engineer, I build production-grade machine learning systems with reliable data pipelines, model deployment, MLOps, CI/CD, monitoring, and observability.", technologies: ["Python", "SQL", "MLOps", "Machine Learning", "Generative AI", "Kubernetes", "CI/CD"] }, { id: "unifi-africa", company: "Unifi Africa", logo: "/images/unifi.png", role: "Data Scientist", startDate: "2026-01", endDate: "2026-09", location: "South Africa", companyDescription: "Unifi Africa is a fintech company providing personal credit solutions across Africa through technology and data-driven lending.", jobDescription: "I apply machine learning and statistical modeling to improve collections, credit risk, and customer outcomes.", technologies: ["Python", "SQL"] }]
+const getSortedWorkExperiences = () => workExperiences
+const formatDateRange = (start: string, end: string | null) => `${start} - ${end || "Present"}`
+const calculateDuration = (start: string, end: string | null): string => {
+  if (!end) return "Current"
+
+  const [startYear, startMonth] = start.split("-").map(Number)
+  const [endYear, endMonth] = end.split("-").map(Number)
+
+  const totalMonths = (endYear - startYear) * 12 + (endMonth - startMonth) + 1
+
+  if (totalMonths <= 0) return "Less than a month"
+
+  const years = Math.floor(totalMonths / 12)
+  const months = totalMonths % 12
+
+  if (years === 0) {
+    return months === 1 ? "1 month" : `${months} months`
+  }
+
+  const yearPart = years === 1 ? "1 year" : `${years} years`
+  if (months === 0) return yearPart
+  const monthPart = months === 1 ? "1 month" : `${months} months`
+  return `${yearPart}, ${monthPart}`
+}
+const getWorkProjects = (_id: string) => [{ id: "model-health-dashboard" }, { id: "collections-prioritization-model" }, { id: "organogram" }, { id: "scorecard-builder" }]
 
 export default function Home() {
   return (
@@ -11,7 +38,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-slate-900 to-slate-800 text-white py-20">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Data Scientist & MLOps Engineer</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Data Scientist & ML Engineer</h1>
           <p className="text-xl md:text-2xl max-w-2xl mx-auto mb-8 text-slate-300">
             I use mathematics, programming, and machine learning to build practical solutions for complex problems.
           </p>
@@ -54,17 +81,30 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Work Experience Section */}
+      <WorkExperienceSection />
+
       {/* Qualifications Section */}
       <section className="py-16 bg-slate-50 dark:bg-slate-900">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-2">Qualifications & Education</h2>
           <p className="text-center max-w-2xl mx-auto mb-12 text-slate-600 dark:text-slate-400">
-            My educational journey from high school excellence to advanced data science specialization.
+            My educational journey from high school to advanced data science and machine learning specialization.
           </p>
 
           <div className="max-w-4xl mx-auto space-y-6">
             <QualificationCard
               icon={<GraduationCap className="h-8 w-8 text-teal-600" />}
+              title="Master of Engineering (MEng)"
+              institution="Stellenbosch University"
+              period="February 2026 - December 2027"
+              details="Focus Area: Data Science"
+              description="Advanced postgraduate programme in data science covering machine learning, big data technologies, optimisation, and a 60-credit research assignment."
+              current
+            />
+
+            <QualificationCard
+              icon={<Award className="h-8 w-8 text-teal-600" />}
               title="Bachelor of Data Science (BDatSci)"
               institution="Stellenbosch University"
               period="February 2021 - December 2025"
@@ -94,7 +134,7 @@ export default function Home() {
           <div className="text-center mt-12">
             <Link href="/university">
               <Button size="lg" className="bg-teal-600 hover:bg-teal-700 mr-4">
-                View University Courses
+                View University Degree's
               </Button>
             </Link>
             <Link href="/school">
@@ -119,9 +159,9 @@ export default function Home() {
               <Card className="h-full transition-all hover:shadow-lg hover:-translate-y-1">
                 <CardContent className="p-6">
                   <Database className="h-12 w-12 mb-4 text-teal-600" />
-                  <h3 className="text-xl font-bold mb-2">My Degree & Courses</h3>
+                  <h3 className="text-xl font-bold mb-2">My Degrees & Courses</h3>
                   <p className="text-slate-600 dark:text-slate-400">
-                    View the comprehensive range of courses I've taken as part of my BDatSci degree.
+                    View my Bachelor's and Master's degrees with all courses and modules.
                   </p>
                 </CardContent>
               </Card>
@@ -219,7 +259,7 @@ export default function Home() {
               {/* MLOps & Engineering */}
               <SkillCard
                 icon={<Cog className="h-8 w-8 text-orange-600" />}
-                title="MLOps & Production Systems"
+                title="MLE & Production Systems"
                 gradient="from-orange-50 to-orange-100 dark:from-orange-950 dark:to-orange-900"
                 skills={[
                   "MLflow for experiment tracking, model versioning & registry",
@@ -314,6 +354,24 @@ export default function Home() {
               imageUrl="/images/CS343P2.png"
               projectId="fusion-app"
             />
+<ProjectCard
+        title="Unifi Uganda Revised Behaviour Scorecard"
+        description="Production LightGBM behaviour scorecard for Uganda repeat borrowers, built with PIT-safe features in BigQuery and deployed via ModelGarden."
+        imageUrl="/images/unifi_uganda.jpg"
+        projectId="unifi-uganda-behaviour-scorecard"
+      />
+      <ProjectCard
+        title="Collections Prioritisation Models"
+        description="Multi-country LightGBM collections scorecards ranking delinquent accounts by expected recovery across Kenya, Uganda, South Africa and Zambia."
+        imageUrl="/images/unifi_collections.jpg"
+        projectId="collections-prioritisation-models"
+      />
+      <ProjectCard
+        title="Feature Store & Scoring Engine Refactor"
+        description="Refactor of Unifi’s shared feature store and scoring engine on ModelGarden, standardising pipelines and speeding up new model deployment."
+        imageUrl="/images/unifi_modelgarden.jpg"
+        projectId="feature-store-scoring-engine-refactor"
+      />
           </div>
 
           <div className="text-center">
@@ -336,6 +394,7 @@ function QualificationCard({
   period,
   details,
   description,
+  current,
 }: {
   icon: React.ReactNode
   title: string
@@ -343,14 +402,20 @@ function QualificationCard({
   period: string
   details: string
   description: string
+  current?: boolean
 }) {
   return (
-    <Card className="transition-all hover:shadow-md">
+    <Card className={`transition-all hover:shadow-md ${current ? "border-l-4 border-l-teal-600" : ""}`}>
       <CardContent className="p-6">
         <div className="flex items-start space-x-4">
           <div className="flex-shrink-0">{icon}</div>
           <div className="flex-1">
-            <h3 className="text-xl font-bold mb-1">{title}</h3>
+            <div className="flex items-center gap-2 mb-1">
+              <h3 className="text-xl font-bold">{title}</h3>
+              {current && (
+                <Badge className="bg-blue-500 text-white text-xs">Current</Badge>
+              )}
+            </div>
             <p className="text-lg font-semibold text-teal-600 dark:text-teal-400 mb-1">{institution}</p>
             <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">{period}</p>
             <p className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{details}</p>
@@ -390,6 +455,82 @@ function SkillCard({
         </ul>
       </CardContent>
     </Card>
+  )
+}
+
+function WorkExperienceSection() {
+  const workExperiences = getSortedWorkExperiences()
+
+  return (
+    <section className="py-16 bg-slate-50 dark:bg-slate-900">
+      <div className="container mx-auto px-4">
+        <h2 className="text-3xl font-bold text-center mb-2">Work Experience</h2>
+        <p className="text-center max-w-2xl mx-auto mb-12 text-slate-600 dark:text-slate-400">
+          Professional roles where I apply data science and machine learning engineering to solve real business problems.
+        </p>
+
+        <div className="max-w-4xl mx-auto space-y-6">
+          {workExperiences.map((work) => {
+            const projectCount = getWorkProjects(work.id).length
+            return (
+              <Link key={work.id} href={`/work/${work.id}`} className="block group">
+                <Card className="transition-all hover:shadow-lg hover:-translate-y-1 overflow-hidden border-l-4 border-l-teal-600">
+                  <CardContent className="p-6">
+                    <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+                      <div className="flex-shrink-0">
+                        <div className="w-16 h-16 relative rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 bg-white">
+                          <Image
+                            src={work.logo}
+                            alt={`${work.company} logo`}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-2">
+                          <div>
+                            <h3 className="text-xl font-bold group-hover:text-teal-600 transition-colors">{work.company}</h3>
+                            <p className="text-base font-semibold text-teal-600 dark:text-teal-400">{work.role}</p>
+                          </div>
+                          {!work.endDate && (
+                            <Badge className="bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200 self-start">
+                              Current
+                            </Badge>
+                          )}
+                        </div>
+                        <div className="flex flex-wrap gap-3 text-sm text-slate-500 dark:text-slate-400 mb-3">
+                          <span className="flex items-center"><Calendar className="h-3.5 w-3.5 mr-1" />{formatDateRange(work.startDate, work.endDate)}</span>
+                          <span className="flex items-center"><Clock className="h-3.5 w-3.5 mr-1" />{calculateDuration(work.startDate, work.endDate)}</span>
+                          <span className="flex items-center"><MapPin className="h-3.5 w-3.5 mr-1" />{work.location}</span>
+                          {projectCount > 0 && (
+                            <span className="flex items-center"><Briefcase className="h-3.5 w-3.5 mr-1" />{projectCount} project{projectCount !== 1 ? "s" : ""}</span>
+                          )}
+                        </div>
+                        <p className="text-slate-600 dark:text-slate-400 text-sm line-clamp-2">
+                          {work.companyDescription.split(".").slice(0, 2).join(".") + "."}
+                        </p>
+                      </div>
+                      <div className="hidden sm:flex items-center self-center">
+                        <ChevronRight className="h-5 w-5 text-slate-400 group-hover:text-teal-600 transition-colors" />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            )
+          })}
+        </div>
+
+        <div className="text-center mt-8">
+          <Link href="/work">
+            <Button size="lg" className="bg-teal-600 hover:bg-teal-700">
+              View All Work Experience <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </section>
   )
 }
 
