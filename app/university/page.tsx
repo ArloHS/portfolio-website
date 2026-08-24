@@ -102,7 +102,7 @@ const mastersData: DegreeData = {
   shortName: "Master's",
   subtitle: "Focus Area: Data Science",
   institution: "Stellenbosch University",
-  period: "February 2025 - December 2026",
+  period: "February 2026 - December 2027",
   description: "Advanced postgraduate programme consisting of eight 15-credit modules, a 60-credit research assignment, and professional development in data science and engineering.",
   status: "in-progress",
   years: [
