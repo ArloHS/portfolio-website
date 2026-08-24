@@ -21,10 +21,31 @@ import {
   MapPin,
   ChevronRight,
 } from "lucide-react"
-const workExperiences = [{ id: "artefact", company: "Artefact (prev AdvanceGuidance)", logo: "/images/artefact.jpg", role: "Senior Machine Learning Engineer", startDate: "2026-09", endDate: null, location: "South Africa", companyDescription: "Artefact is a global data and AI consulting firm. Following its acquisition of Cape Town-based AdvanceGuidance, Artefact South Africa helps organisations turn data and artificial intelligence into scalable business solutions.", jobDescription: "As a Senior Machine Learning Engineer, I build production-grade machine learning systems with reliable data pipelines, model deployment, MLOps, CI/CD, monitoring, and observability.", technologies: ["Python", "SQL", "MLOps", "Machine Learning", "Generative AI", "Kubernetes", "CI/CD"] }, { id: "unifi-africa", company: "Unifi Africa", logo: "/images/unifi.png", role: "Data Scientist", startDate: "2026-01", endDate: "2026-09", location: "South Africa", companyDescription: "Unifi Africa is a fintech company providing personal credit solutions across Africa through technology and data-driven lending.", jobDescription: "I apply machine learning and statistical modeling to improve collections, credit risk, and customer outcomes.", technologies: ["Python", "SQL"] }]
+const workExperiences = [{ id: "artefact", company: "Artefact (prev AdvanceGuidance)", logo: "/images/artefact.jpg", role: "Senior Machine Learning Engineer", startDate: "2026-09", endDate: null, location: "South Africa", companyDescription: "Artefact is a global data and AI consulting firm. Following its acquisition of Cape Town-based AdvanceGuidance, Artefact South Africa helps organisations turn data and artificial intelligence into scalable business solutions.", jobDescription: "As a Senior Machine Learning Engineer, I build production-grade machine learning systems with reliable data pipelines, model deployment, MLOps, CI/CD, monitoring, and observability.", technologies: ["Python", "SQL", "MLOps", "Machine Learning", "Generative AI", "Kubernetes", "CI/CD"] }, { id: "unifi-africa", company: "Unifi Africa", logo: "/images/unifi.png", role: "Data Scientist", startDate: "2026-01", endDate: "2026-09", location: "South Africa", companyDescription: "Unifi is a technology-led lending business that provides accessible personal credit across African markets. Its operating model combines digital products, local country teams, credit governance, and data-driven decision-making to manage portfolios responsibly at scale. Working across five country portfolios meant that the analytical work had to be both technically robust and operationally useful: models needed to perform in production, risk decisions needed clear governance, and insights needed to make sense in each local market.", jobDescription: "Unifi is a technology-led lending business that provides accessible personal credit across African markets. Its operating model combines digital products, local country teams, credit governance, and data-driven decision-making to manage portfolios responsibly at scale. Working across five country portfolios meant that the analytical work had to be both technically robust and operationally useful: models needed to perform in production, risk decisions needed clear governance, and insights needed to make sense in each local market.", technologies: ["Python", "SQL"] }]
 const getSortedWorkExperiences = () => workExperiences
 const formatDateRange = (start: string, end: string | null) => `${start} - ${end || "Present"}`
-const calculateDuration = (_start: string, _end: string | null) => "Current"
+const calculateDuration = (start: string, end: string | null): string => {
+  if (!end) return "Current"
+
+  const [startYear, startMonth] = start.split("-").map(Number)
+  const [endYear, endMonth] = end.split("-").map(Number)
+
+  const totalMonths = (endYear - startYear) * 12 + (endMonth - startMonth) + 1
+
+  if (totalMonths <= 0) return "Less than a month"
+
+  const years = Math.floor(totalMonths / 12)
+  const months = totalMonths % 12
+
+  if (years === 0) {
+    return months === 1 ? "1 month" : `${months} months`
+  }
+
+  const yearPart = years === 1 ? "1 year" : `${years} years`
+  if (months === 0) return yearPart
+  const monthPart = months === 1 ? "1 month" : `${months} months`
+  return `${yearPart}, ${monthPart}`
+}
 const getWorkProjects = (_id: string) => [{ id: "model-health-dashboard" }, { id: "collections-prioritization-model" }, { id: "organogram" }, { id: "scorecard-builder" }]
 
 export default function AboutPage() {
@@ -43,7 +64,7 @@ export default function AboutPage() {
             <div className="w-64 h-64 relative rounded-full overflow-hidden shadow-2xl border-8 border-gradient-to-r from-teal-600 to-blue-700 p-2 bg-gradient-to-r from-teal-600 to-blue-700">
               <div className="w-full h-full rounded-full overflow-hidden border-4 border-white dark:border-slate-900">
                 <Image
-                  src="/images/pic_of_me.jpg"
+                  src="/images/pic_of_me_2.jpg"
                   alt="Arlo Steyn - Data Science Student"
                   fill
                   className="object-cover"

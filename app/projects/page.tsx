@@ -566,7 +566,7 @@ const projects: Project[] = [
       // Work Projects (Unifi Africa)
   {
     id: "unifi-kenya-behaviour-scorecard",
-    title: "Unifi Kenya Revised Behaviour Scorecard",
+    title: "Unifi Kenya Credit Behaviour Scorecard",
     description:
       "Rebuilt the Kenya behavioural scorecard (ke_bhv_v4) as a production LightGBM model deployed through Unifi's ModelGarden MLOps pipeline. The workstream spanned feature engineering against a point-in-time-safe BigQuery feature store, calibration and reject-inference analysis, and end-to-end validation across the get/validate/transform/apply architecture. The revised scorecard drives credit decisioning for repeat borrowers in the Kenyan market and forms part of a broader multi-country behavioural scorecard refresh.",
     image: "/images/unifi_kenya.jpg",
@@ -587,7 +587,7 @@ const projects: Project[] = [
   },
   {
     id: "unifi-uganda-behaviour-scorecard",
-    title: "Unifi Uganda Revised Behaviour Scorecard",
+    title: "Unifi Uganda Credit Behaviour Scorecard",
     description:
       "Delivered the revised Uganda behavioural scorecard, building point-in-time-safe features in BigQuery and training a LightGBM model deployed via the ModelGarden pipeline. Work covered feature engineering, PIT-safe joins across the feature store, model training and calibration, and validation against Uganda-specific portfolio behaviour. The scorecard is used for credit decisioning on repeat borrowers in the Ugandan market.",
     image: "/images/unifi_uganda.jpg",
