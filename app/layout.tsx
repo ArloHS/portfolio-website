@@ -9,7 +9,7 @@ import Footer from "@/components/footer"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Arlo Steyn - Data Science & ML Engineer",
+  title: "Arlo Steyn - Data Scientist & ML Engineer",
   description: "Portfolio of Arlo Steyn, Data Science and Computer Science professional",
     generator: 'v0.dev'
 }
